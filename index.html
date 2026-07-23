@@ -157,14 +157,34 @@ h3{font-size:18.5px;margin-bottom:8px}
   position:relative;border-radius:16px;overflow:hidden;background:#000;
   box-shadow:var(--shadow2);margin:6px 0 12px
 }
-/* 54vh: piu' in alto e la barra dei comandi finirebbe sotto la nav fissa */
-.player video{display:block;width:100%;height:auto;max-height:54vh;background:#000}
-.player.wide video{max-height:none}
+/* ---- YouTube senza distrattori (vedi nota "youtube-embed-senza-distrattori") ----
+   controls:0 toglie ingranaggio, schermo intero, logo e barra; l'iframe non riceve
+   eventi (pointer-events:none) cosi' titolo, avatar, "Guarda su YouTube" e condividi
+   non sono raggiungibili; un poster opaco copre l'anteprima cued e un velo finale
+   copre l'end screen coi video correlati. */
+.player{aspect-ratio:16/9}
+.player.vert{aspect-ratio:9/16;height:min(60vh,520px);width:auto;max-width:100%;margin-left:auto;margin-right:auto}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none}
+.vp-poster{
+  position:absolute;inset:0;background:#000 center/cover no-repeat;z-index:2;
+  transition:opacity .3s ease
+}
+.vp-poster.off{opacity:0;pointer-events:none}
+.vp-end{
+  position:absolute;inset:0;z-index:4;background:rgba(6,20,48,.97);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  color:#fff;text-align:center;padding:18px
+}
+.player.ended .vp-end{display:flex}
+.vp-end b{font-family:var(--head);font-size:17px;font-weight:600}
+.vp-end button{
+  font-family:var(--head);font-size:15px;font-weight:600;color:#fff;
+  border:1.5px solid rgba(255,255,255,.5);border-radius:11px;padding:10px 18px;min-height:44px
+}
 
-/* Player senza distrazioni: i controlli nativi non si possono ridurre in modo
-   affidabile (Safari ignora controlslist), quindi li sostituiamo del tutto.
-   Niente schermo intero, niente menu, niente uscita dal percorso. */
-.vp-tap{position:absolute;left:0;right:0;top:0;bottom:52px;width:100%;background:transparent;border:0;padding:0}
+/* Comandi propri: play/pausa, avanzamento, tempo, muto. Nient'altro. */
+.vp-tap{position:absolute;left:0;right:0;top:0;bottom:52px;width:100%;background:transparent;border:0;padding:0;z-index:3}
+.vp-big,.vp-bar{z-index:5}
 .vp-big{
   position:absolute;left:50%;top:calc(50% - 26px);transform:translate(-50%,-50%);
   width:66px;height:66px;border-radius:50%;background:rgba(11,42,99,.72);
@@ -228,6 +248,15 @@ input.vp-seek[type=range]::-moz-range-progress{height:4px;border-radius:3px;back
   display:flex;align-items:center;justify-content:center
 }
 .tap.open .tap-n{background:var(--gold)}
+
+/* ---------- coda: per riderci su ---------- */
+.ridere-g{margin:20px 0 26px}
+.ridere-t{
+  display:flex;align-items:center;gap:9px;font-size:17px;font-weight:600;color:var(--blu);
+  padding-bottom:9px;border-bottom:1px solid var(--brd);margin-bottom:14px
+}
+.ridere-t svg{width:19px;height:19px;flex:0 0 auto;color:var(--gold)}
+.ridere-g .player{margin:0 0 12px}
 
 /* ---------- infografica Apollo ---------- */
 .infog{
@@ -445,7 +474,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 
 <div class="steps">
   <div class="steps-in" id="steps"></div>
-  <div class="steps-lbl"><span id="stepName">Copertina</span><span><b id="stepN">0</b>/6</span></div>
+  <div class="steps-lbl"><span id="stepName">Copertina</span><span><b id="stepN">0</b>/<span id="stepTot">7</span></span></div>
 </div>
 
 <main id="app">
@@ -481,14 +510,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
   <h1>Il due per cento</h1>
   <p class="lead">Guarda il video fino in fondo. Le sei tappe qui sotto si aprono da sole, una alla volta.</p>
 
-  <div class="player">
-    <video id="v1" preload="metadata" playsinline
-      disablepictureinpicture disableremoteplayback
-      controlslist="nofullscreen nodownload noplaybackrate noremoteplayback">
-      <source src="video1.mp4" type="video/mp4" />
-      Il tuo browser non riesce a mostrare il video. Puoi aprirlo qui: <a href="video1.mp4">video1.mp4</a>.
-    </video>
-  </div>
+  <div class="player vert" id="p1"></div>
   <div class="vhint">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 8v5"/><circle cx="12" cy="16.4" r=".6" fill="currentColor"/><circle cx="12" cy="12" r="8.6"/></svg>
     <span>Tocca una tappa aperta per vederla intera.</span>
@@ -617,14 +639,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
   <p class="lead">Aprile 1970. A trecentomila chilometri da casa l'anidride carbonica sale nella cabina. I filtri del modulo di comando sono quadrati; gli alloggiamenti del modulo lunare, dove l'equipaggio si è rifugiato, sono rotondi.</p>
   <p>A terra rovesciano su un tavolo esattamente ciò che c'è a bordo — un calzino, del nastro adesivo, la copertina di un manuale, un tubo della tuta. Niente di più. E hanno poche ore.</p>
 
-  <div class="player wide">
-    <video id="v2" preload="metadata" playsinline
-      disablepictureinpicture disableremoteplayback
-      controlslist="nofullscreen nodownload noplaybackrate noremoteplayback">
-      <source src="video2.mp4" type="video/mp4" />
-      Il tuo browser non riesce a mostrare il video. Puoi aprirlo qui: <a href="video2.mp4">video2.mp4</a>.
-    </video>
-  </div>
+  <div class="player" id="p2"></div>
   <p class="tiny">Sequenza da <i>Apollo 13</i> (1995), ricostruzione della soluzione del filtro dell'anidride carbonica.</p>
 
   <button class="infog" id="apolloBtn">
@@ -671,14 +686,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
   <h1>Il conto che si azzera ogni sera</h1>
   <p class="lead">Un ultimo video, quarantacinque secondi.</p>
 
-  <div class="player">
-    <video id="v3" preload="metadata" playsinline
-      disablepictureinpicture disableremoteplayback
-      controlslist="nofullscreen nodownload noplaybackrate noremoteplayback">
-      <source src="video3.mp4" type="video/mp4" />
-      Il tuo browser non riesce a mostrare il video. Puoi aprirlo qui: <a href="video3.mp4">video3.mp4</a>.
-    </video>
-  </div>
+  <div class="player" id="p3"></div>
 
   <div id="revealA4" style="display:none">
     <hr class="hr" />
@@ -757,6 +765,36 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
   </div>
 
   <div class="seedline" id="seedline2"></div>
+</section>
+
+<!-- ============ 7 · PER RIDERCI SU ============ -->
+<section class="scr" data-i="7">
+  <div class="eyebrow">Coda</div>
+  <h1>Le domande degli studenti</h1>
+  <p class="lead">Per riderci su. Perché una domanda spiazzante, in fondo, è pensiero divergente che bussa alla porta nel momento meno opportuno.</p>
+  <p class="tiny">Sono spettacoli interi: guardane un pezzo quando hai voglia, non c'è niente da completare.</p>
+
+  <div class="ridere-g">
+    <h2 class="ridere-t">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7.5h16M4 12h16M4 16.5h10"/></svg>
+      <span>Scuola Primaria · le maestre</span>
+    </h2>
+    <div class="player" data-yt="b4ZUycaf7q4"></div>
+    <div class="player" data-yt="LOur7-tSc10"></div>
+  </div>
+
+  <div class="ridere-g">
+    <h2 class="ridere-t">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5.5L3.5 9.5 12 13.5l8.5-4z"/><path d="M7 11.5v4c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5v-4"/></svg>
+      <span>Scuola Secondaria · i prof</span>
+    </h2>
+    <div class="player" data-yt="PMz7JVxkzlE"></div>
+    <div class="player" data-yt="OPx_upbl-Tc"></div>
+  </div>
+
+  <div class="card dark">
+    <p style="margin:0">Buon anno di lavoro. E se durante una lezione arriva la domanda che manda tutto all'aria — quella che non c'entra niente e a cui non sai rispondere — ricordati che fino a un attimo prima stavi cercando esattamente quello.</p>
+  </div>
 </section>
 
 </main>
@@ -900,7 +938,8 @@ var ESEMPI_VINCOLO=[
   'Racconta la stessa vicenda dal punto di vista di chi ha perso.'
 ];
 
-var SCREENS=['Copertina','Atto I','La scommessa','La bottega','Atto III','Atto IV','Chiusura'];
+var SCREENS=['Copertina','Atto I','La scommessa','La bottega','Atto III','Atto IV','Chiusura','Per riderci su'];
+var VID={v1:'9wv-HTe0mQc',v2:'ut4I6I-sbLA',v3:'OYrlaD817HM'};
 var DUR=90;      /* secondi per oggetto */
 var V1=[60,30];  /* secondi rimanenti a cui compaiono i due vincoli */
 
@@ -968,8 +1007,6 @@ function toast(msg){
 }
 
 /* ================= navigazione ================= */
-var videos=[];
-function pauseAll(){for(var i=0;i<videos.length;i++){try{videos[i].pause();}catch(e){}}}
 
 function buildSteps(){
   var w=$('steps'),h='',i;
@@ -983,6 +1020,7 @@ function paintSteps(){
   }
   $('stepName').textContent=SCREENS[S.scr];
   $('stepN').textContent=String(S.scr);
+  $('stepTot').textContent=String(SCREENS.length-1);
 }
 
 function show(i){
@@ -1014,7 +1052,8 @@ function refreshNext(){
       break;
     case 4: lab='Ho visto il video'; ok=!!S.done.v2; break;
     case 5: lab='Tira le somme'; ok=!!S.done.v3; break;
-    case 6: lab='Fine'; ok=false; break;
+    case 6: lab='Per riderci su'; break;
+    case 7: lab='Fine'; ok=false; break;
   }
   t.textContent=lab;
   b.disabled=!ok;
@@ -1022,7 +1061,7 @@ function refreshNext(){
 
 $('btnNext').addEventListener('click',function(){
   if(S.scr===0){show(1);return;}
-  if(S.scr<6) show(S.scr+1);
+  if(S.scr<SCREENS.length-1) show(S.scr+1);
 });
 $('btnBack').addEventListener('click',function(){ if(S.scr>0) show(S.scr-1); });
 
@@ -1067,7 +1106,10 @@ function syncTappe(now){
   return open;
 }
 
-/* ---- player custom: play/pausa, avanzamento, tempo, muto. Nient'altro. ---- */
+/* ---- player YouTube senza distrattori ----------------------------------------
+   L'embed nudo lascerebbe titolo cliccabile, avatar del canale, "Guarda su YouTube",
+   condividi, ingranaggio e video correlati finali. Servono tutte queste misure
+   insieme: controls:0, iframe non cliccabile, poster opaco, velo di fine. */
 var IC_PLAY='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5l13 7.5-13 7.5z"/></svg>';
 var IC_PAUSE='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1"/><rect x="13.5" y="5" width="4" height="14" rx="1"/></svg>';
 var IC_VOL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h3.5L13 19V5L7.5 9H4Z" fill="currentColor" stroke="none"/><path d="M16 9.2a4 4 0 0 1 0 5.6"/><path d="M18.4 6.6a7.5 7.5 0 0 1 0 10.8"/></svg>';
@@ -1079,8 +1121,38 @@ function mmss(x){
   return m+':'+(s<10?'0':'')+s;
 }
 
-function mkPlayer(v){
-  var wrap=v.parentElement,drag=false;
+var ytReady=false, ytQueue=[];
+window.onYouTubeIframeAPIReady=function(){
+  ytReady=true;
+  while(ytQueue.length) ytQueue.shift()();
+};
+(function(){
+  var t=document.createElement('script');
+  t.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(t);
+})();
+function whenYT(fn){ if(ytReady) fn(); else ytQueue.push(fn); }
+
+/* Un solo cronometro aggiorna tutti i player: piu' economico di uno per video. */
+var players=[];
+setInterval(function(){
+  for(var i=0;i<players.length;i++) players[i].tick();
+},250);
+
+function pauseAll(){
+  for(var i=0;i<players.length;i++){ try{ players[i].pause(); }catch(e){} }
+}
+
+function mkYT(host,vid,opts){
+  opts=opts||{};
+  var slot=document.createElement('div');
+  host.appendChild(slot);
+
+  var poster=document.createElement('div');
+  poster.className='vp-poster';
+  poster.style.backgroundImage='url(https://i.ytimg.com/vi/'+vid+'/hqdefault.jpg)';
+  host.appendChild(poster);
+
   var tap=document.createElement('button');
   tap.className='vp-tap';tap.type='button';tap.setAttribute('aria-label','Riproduci o metti in pausa');
   var big=document.createElement('span');big.className='vp-big';big.innerHTML=IC_PLAY;
@@ -1089,55 +1161,105 @@ function mkPlayer(v){
     +'<input class="vp-seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Avanzamento del video" />'
     +'<span class="vp-t">0:00</span>'
     +'<button type="button" class="vp-mute" aria-label="Togli l\'audio">'+IC_VOL+'</button>';
-  wrap.appendChild(tap);wrap.appendChild(big);wrap.appendChild(bar);
+  var fine=document.createElement('div');
+  fine.className='vp-end';
+  fine.innerHTML='<b>Fine del video</b><button type="button" class="vp-again">Rivedi dall\'inizio</button>';
+  host.appendChild(tap);host.appendChild(big);host.appendChild(bar);host.appendChild(fine);
 
   var pp=bar.querySelector('.vp-pp'),seek=bar.querySelector('.vp-seek'),
       lab=bar.querySelector('.vp-t'),mute=bar.querySelector('.vp-mute');
+  var yt=null,drag=false,dur=0,started=false;
 
-  function toggle(){ if(v.paused) v.play().catch(function(){}); else v.pause(); }
+  var api={
+    pause:function(){ if(yt&&yt.pauseVideo) yt.pauseVideo(); },
+    tick:function(){
+      if(!yt||!yt.getCurrentTime)return;
+      var t=yt.getCurrentTime()||0;
+      if(!dur&&yt.getDuration) dur=yt.getDuration()||0;
+      if(!drag&&dur) seek.value=String(Math.round(t/dur*1000));
+      lab.textContent=mmss(t)+' / '+mmss(dur);
+      if(opts.onTime) opts.onTime(t,dur);
+    }
+  };
+  players.push(api);
+
+  function setPlaying(on){
+    host.classList.toggle('playing',on);
+    pp.innerHTML=on?IC_PAUSE:IC_PLAY;
+    pp.setAttribute('aria-label',on?'Metti in pausa':'Riproduci');
+  }
+  function toggle(){
+    if(!yt)return;
+    var st=yt.getPlayerState&&yt.getPlayerState();
+    if(st===1) yt.pauseVideo(); else yt.playVideo();
+  }
+
   tap.addEventListener('click',toggle);
   pp.addEventListener('click',toggle);
-  v.addEventListener('play',function(){
-    wrap.classList.add('playing');pp.innerHTML=IC_PAUSE;pp.setAttribute('aria-label','Metti in pausa');
-  });
-  v.addEventListener('pause',function(){
-    wrap.classList.remove('playing');pp.innerHTML=IC_PLAY;pp.setAttribute('aria-label','Riproduci');
-  });
-  v.addEventListener('timeupdate',function(){
-    if(!drag&&v.duration) seek.value=String(Math.round(v.currentTime/v.duration*1000));
-    lab.textContent=mmss(v.currentTime)+' / '+mmss(v.duration);
-  });
-  v.addEventListener('loadedmetadata',function(){ lab.textContent='0:00 / '+mmss(v.duration); });
   seek.addEventListener('pointerdown',function(){drag=true;});
+  seek.addEventListener('input',function(){
+    if(dur) lab.textContent=mmss((+seek.value)/1000*dur)+' / '+mmss(dur);
+  });
   seek.addEventListener('change',function(){
     drag=false;
-    if(v.duration) v.currentTime=(+seek.value)/1000*v.duration;
-  });
-  seek.addEventListener('input',function(){
-    if(v.duration) lab.textContent=mmss((+seek.value)/1000*v.duration)+' / '+mmss(v.duration);
+    if(yt&&dur){ host.classList.remove('ended'); yt.seekTo((+seek.value)/1000*dur,true); }
   });
   mute.addEventListener('click',function(){
-    v.muted=!v.muted;
-    mute.innerHTML=v.muted?IC_MUTE:IC_VOL;
-    mute.setAttribute('aria-label',v.muted?'Riattiva l\'audio':'Togli l\'audio');
+    if(!yt)return;
+    var m=yt.isMuted&&yt.isMuted();
+    if(m) yt.unMute(); else yt.mute();
+    mute.innerHTML=m?IC_VOL:IC_MUTE;
+    mute.setAttribute('aria-label',m?'Togli l\'audio':'Riattiva l\'audio');
   });
+  fine.querySelector('.vp-again').addEventListener('click',function(){
+    host.classList.remove('ended');
+    if(yt){ yt.seekTo(0,true); yt.playVideo(); }
+  });
+
+  whenYT(function(){
+    yt=new YT.Player(slot,{
+      videoId:vid,
+      playerVars:{
+        controls:0, fs:0, modestbranding:1, rel:0, iv_load_policy:3,
+        disablekb:1, playsinline:1, enablejsapi:1, origin:location.origin
+      },
+      events:{
+        onReady:function(){ dur=yt.getDuration&&yt.getDuration()||0; api.tick(); },
+        onStateChange:function(e){
+          if(e.data===YT.PlayerState.PLAYING){
+            if(!started){started=true;poster.classList.add('off');}
+            host.classList.remove('ended');
+            setPlaying(true);
+          }else{
+            setPlaying(false);
+            if(e.data===YT.PlayerState.ENDED){
+              host.classList.add('ended');
+              if(opts.onEnd) opts.onEnd();
+            }
+          }
+        }
+      }
+    });
+  });
+
+  return api;
 }
 
-function wireVideo(v,flag,onDone){
-  videos.push(v);
-  mkPlayer(v);
-  var seen=false;
+/* Aggancia un video del percorso: sblocca l'avanzamento quando e' stato visto. */
+function wireVideo(hostId,vid,flag,onDone){
+  var host=$(hostId),seen=false;
   function done(){
     if(seen)return;seen=true;
     S.done[flag]=true;save();refreshNext();
     if(onDone)onDone();
   }
-  v.addEventListener('timeupdate',function(){
-    if(flag==='v1') syncTappe(v.currentTime);
-    if(v.duration&&v.currentTime>=v.duration*0.94) done();
+  mkYT(host,vid,{
+    onTime:function(t,d){
+      if(flag==='v1') syncTappe(t);
+      if(d&&t>=d*0.94) done();
+    },
+    onEnd:done
   });
-  v.addEventListener('seeked',function(){ if(flag==='v1') syncTappe(v.currentTime); });
-  v.addEventListener('ended',done);
   if(S.done[flag]){ if(onDone)onDone(); }
 }
 
@@ -1482,7 +1604,6 @@ $('again').addEventListener('click',function(){
   S.done=keep;                    /* i video restano visti: si ricomincia dalla bottega */
   S.guess=kg;S.guessDone=true;
   save();
-  videos.forEach(function(v){try{v.currentTime=0;}catch(e){}});
   ['fVincolo','m1','m2','m3','pClasse','pQuando','pAzione'].forEach(function(k){var el=$(k);if(el)el.value='';});
   $('guess').value=S.guess;$('guessN').textContent=S.guess;
   $('botIntro').innerHTML=BOT_INTRO_HTML;
@@ -1496,9 +1617,11 @@ var BOT_INTRO_HTML=$('botIntro').innerHTML;
 buildSteps();
 buildTappe();
 $('seedline').textContent='partita '+S.seed;
-wireVideo($('v1'),'v1',function(){ $('revealA1').style.display='block'; syncTappe(1e9); });
-wireVideo($('v2'),'v2',function(){ $('revealA3').style.display='block'; });
-wireVideo($('v3'),'v3',function(){ $('revealA4').style.display='block'; });
+wireVideo('p1',VID.v1,'v1',function(){ $('revealA1').style.display='block'; syncTappe(1e9); });
+wireVideo('p2',VID.v2,'v2',function(){ $('revealA3').style.display='block'; });
+wireVideo('p3',VID.v3,'v3',function(){ $('revealA4').style.display='block'; });
+/* i video della coda non hanno gate: si guardano se e quando si vuole */
+[].forEach.call(document.querySelectorAll('.player[data-yt]'),function(el){ mkYT(el,el.dataset.yt,{}); });
 show(S.scr||0);
 
 })();
