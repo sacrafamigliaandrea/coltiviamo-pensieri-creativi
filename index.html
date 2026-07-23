@@ -162,8 +162,10 @@ h3{font-size:18.5px;margin-bottom:8px}
    eventi (pointer-events:none) cosi' titolo, avatar, "Guarda su YouTube" e condividi
    non sono raggiungibili; un poster opaco copre l'anteprima cued e un velo finale
    copre l'end screen coi video correlati. */
-.player{aspect-ratio:16/9}
-.player.vert{aspect-ratio:9/16;height:min(60vh,520px);width:auto;max-width:100%;margin-left:auto;margin-right:auto}
+/* Video grandi: i 16:9 vanno a tutta larghezza (fuori dal padding di main),
+   il verticale domina lo schermo restando centrato. */
+.player{aspect-ratio:16/9;margin-left:-16px;margin-right:-16px;border-radius:0}
+.player.vert{aspect-ratio:9/16;height:min(76vh,660px);width:auto;max-width:100%;margin:4px auto 12px;border-radius:16px}
 .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none}
 .vp-poster{
   position:absolute;inset:0;background:#000 center/cover no-repeat;z-index:2;
@@ -203,7 +205,7 @@ h3{font-size:18.5px;margin-bottom:8px}
 }
 .vp-bar button svg{width:19px;height:19px}
 .vp-t{flex:0 0 auto;font-family:var(--mono);font-size:12.5px;color:#fff;letter-spacing:.2px}
-/* la specificita' deve superare quella di input[type=range] usato per la scommessa */
+/* la barra del video e' un input range: regole complete e autonome */
 input.vp-seek[type=range]{-webkit-appearance:none;appearance:none;flex:1 1 auto;min-width:40px;height:26px;background:transparent;margin:0}
 input.vp-seek[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:3px;background:rgba(255,255,255,.34);border:0}
 input.vp-seek[type=range]::-webkit-slider-thumb{
@@ -213,186 +215,45 @@ input.vp-seek[type=range]::-webkit-slider-thumb{
 input.vp-seek[type=range]::-moz-range-track{height:4px;border-radius:3px;background:rgba(255,255,255,.34);border:0}
 input.vp-seek[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--gold2);border:2px solid #fff}
 input.vp-seek[type=range]::-moz-range-progress{height:4px;border-radius:3px;background:var(--gold2)}
-.vhint{
-  display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);
-  margin:-4px 0 12px
+/* ---------- bottega (scrittura libera + scaffolding) ---------- */
+.obj-stage{display:flex;flex-direction:row;align-items:center;text-align:left;gap:13px;margin-bottom:12px}
+.obj-illu{
+  width:86px;height:86px;flex:0 0 auto;border-radius:18px;background:var(--card);border:1px solid var(--brd);
+  display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)
 }
-.vhint svg{width:16px;height:16px;flex:0 0 auto;color:var(--gold)}
+.obj-illu svg{width:88%;height:88%}
+.obj-txt{flex:1 1 auto;min-width:0}
+.obj-name{font-family:var(--head);font-size:22px;font-weight:600;letter-spacing:-.2px;line-height:1.15}
+.obj-area{font-size:13.5px;color:var(--gold);font-family:var(--head);font-weight:500;letter-spacing:.3px}
+.obj-of{font-size:12px;color:var(--light);font-family:var(--head);letter-spacing:.6px;text-transform:uppercase}
 
-/* ---------- tappe del video 1 ---------- */
-.tappe{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 4px}
-.tap{
-  position:relative;border:1px solid var(--brd);border-radius:13px;overflow:hidden;
-  background:var(--warm);padding:0;text-align:left;display:block;width:100%;
-  transition:box-shadow .3s ease,border-color .3s ease,transform .3s ease
-}
-.tap .thumb{display:block;position:relative;width:100%;aspect-ratio:75/85;overflow:hidden;background:var(--warm)}
-.tap img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) opacity(.22)}
-.tap .cap{
-  display:block;padding:9px 10px 10px;font-family:var(--head);font-size:12.5px;font-weight:600;
-  line-height:1.3;color:var(--light);border-top:1px solid var(--brd)
-}
-.tap .lock{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--light)
-}
-.tap .lock svg{width:26px;height:26px}
-.tap.open{border-color:var(--gold2);box-shadow:0 4px 16px rgba(184,134,11,.22)}
-.tap.open img{filter:none}
-.tap.open .cap{color:var(--blu)}
-.tap.open .lock{display:none}
-.tap.just{animation:pop .55s ease}
-@keyframes pop{0%{transform:scale(.94)}55%{transform:scale(1.035)}100%{transform:none}}
-.tap-n{
-  position:absolute;top:7px;left:7px;z-index:2;width:22px;height:22px;border-radius:50%;
-  background:rgba(11,42,99,.82);color:#fff;font-family:var(--head);font-size:12px;font-weight:700;
-  display:flex;align-items:center;justify-content:center
-}
-.tap.open .tap-n{background:var(--gold)}
+.consegna{font-family:var(--head);font-size:16.5px;font-weight:500;color:var(--text);margin:0 0 10px}
+.objbox{min-height:132px;font-size:17px}
 
-/* ---------- coda: per riderci su ---------- */
-.ridere-g{margin:20px 0 26px}
-.ridere-t{
-  display:flex;align-items:center;gap:9px;font-size:17px;font-weight:600;color:var(--blu);
-  padding-bottom:9px;border-bottom:1px solid var(--brd);margin-bottom:14px
+.scaff{margin:15px 0 4px}
+.scaff-t{
+  display:flex;align-items:center;gap:7px;font-family:var(--head);font-size:12.5px;font-weight:600;
+  letter-spacing:.4px;color:var(--muted);margin-bottom:9px
 }
-.ridere-t svg{width:19px;height:19px;flex:0 0 auto;color:var(--gold)}
-.ridere-g .player{margin:0 0 12px}
+.scaff-t svg{width:17px;height:17px;flex:0 0 auto;color:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  font-size:14.5px;padding:9px 13px;border-radius:20px;background:var(--warm);
+  border:1px solid var(--brd2);color:var(--blu);font-family:var(--head);font-weight:500;
+  line-height:1.25;text-align:left
+}
+.chip:active{background:var(--bluL);transform:scale(.97)}
+.chip.used{background:var(--bluL);border-color:var(--blu);opacity:.55}
 
-/* ---------- infografica Apollo ---------- */
-.infog{
-  display:flex;align-items:center;gap:13px;width:100%;text-align:left;
-  background:var(--card);border:1px solid var(--brd);border-radius:16px;padding:11px;
-  box-shadow:var(--shadow);margin:12px 0 4px
-}
-.infog-img{
-  flex:0 0 auto;width:62px;height:78px;border-radius:10px;overflow:hidden;
-  border:1px solid var(--brd);background:var(--warm)
-}
-.infog-img img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
-.infog-txt{flex:1 1 auto;display:block}
-.infog-t{display:block;font-family:var(--head);font-size:16px;font-weight:600;color:var(--blu);margin-bottom:3px}
-.infog-s{display:block;font-size:14px;line-height:1.4;color:var(--muted)}
+.objnav{display:flex;gap:10px;margin-top:18px}
+.objnav .btn{width:auto;flex:1 1 auto}
+.objnav .btn.ghost{flex:0 0 auto;padding-left:15px;padding-right:17px}
+.objnav .btn[disabled]{opacity:.3;pointer-events:none}
 
-/* ---------- lightbox ---------- */
-.lb{
-  position:fixed;inset:0;z-index:90;background:rgba(9,32,76,.985);
-  display:none;align-items:center;justify-content:center;padding:16px
-}
-.lb.on{display:flex}
-.lb-in{max-width:520px;width:100%;max-height:100%;overflow:auto}
-.lb img{width:100%;border-radius:14px;display:block}
-.lb .lb-cap{color:#fff;font-size:15.5px;margin-top:12px;line-height:1.5}
-.lb .lb-x{
-  position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;
-  background:rgba(255,255,255,.14);color:#fff;display:flex;align-items:center;justify-content:center
-}
-.lb .lb-x svg{width:20px;height:20px}
-
-/* ---------- slider previsione ---------- */
-.guess{text-align:center;padding:6px 0 2px}
-.guess-n{
-  font-family:var(--head);font-size:62px;font-weight:700;color:var(--blu);
-  line-height:1;letter-spacing:-2px
-}
-.guess-u{font-family:var(--head);font-size:14px;color:var(--muted);letter-spacing:.5px;margin-top:2px}
-input[type=range]{
-  -webkit-appearance:none;appearance:none;width:100%;height:34px;background:transparent;margin:14px 0 2px
-}
-input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:5px;background:var(--warm);border:1px solid var(--brd)}
-input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:34px;height:34px;border-radius:50%;background:var(--gold);
-  border:3px solid #fff;box-shadow:0 2px 8px rgba(184,134,11,.4);margin-top:-14px
-}
-input[type=range]::-moz-range-track{height:8px;border-radius:5px;background:var(--warm);border:1px solid var(--brd)}
-input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--gold);border:3px solid #fff}
-.range-ends{display:flex;justify-content:space-between;font-size:13px;color:var(--light)}
-
-/* ---------- bottega ---------- */
-.obj-head{display:flex;align-items:center;gap:14px;margin-bottom:4px}
-.obj-ico{
-  width:74px;height:74px;flex:0 0 auto;border-radius:16px;background:var(--warm);
-  border:1px solid var(--brd);display:flex;align-items:center;justify-content:center
-}
-.obj-ico svg{width:56px;height:56px}
-.obj-name{font-family:var(--head);font-size:23px;font-weight:600;letter-spacing:-.2px}
-.obj-area{font-size:13.5px;color:var(--gold);font-family:var(--head);font-weight:500;letter-spacing:.4px}
-.obj-of{font-size:12.5px;color:var(--light);font-family:var(--head);letter-spacing:.6px;text-transform:uppercase}
-
-.timer{display:flex;align-items:center;gap:13px;margin:14px 0 10px}
-.ring{width:56px;height:56px;flex:0 0 auto;position:relative}
-.ring i{
-  position:absolute;inset:0;border-radius:50%;
-  background:conic-gradient(var(--blu) calc(var(--p,1)*360deg), var(--warm) 0)
-}
-.ring.warn i{background:conic-gradient(var(--gold2) calc(var(--p,1)*360deg), var(--warm) 0)}
-.ring b{
-  position:absolute;inset:5px;border-radius:50%;background:var(--card);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--head);font-size:16.5px;font-weight:700;color:var(--blu)
-}
-.ring.warn b{color:var(--gold)}
-.timer-txt{flex:1 1 auto;font-size:14.5px;line-height:1.4;color:var(--muted)}
-.count{font-family:var(--head);font-weight:700;font-size:15px;color:var(--blu)}
-
-.vincolo{
-  border:1.5px solid var(--gold2);background:var(--goldL);border-radius:14px;
-  padding:13px 14px;margin:12px 0;animation:slideIn .45s ease
-}
-@keyframes slideIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
-.vincolo .v-t{
-  font-family:var(--head);font-size:11.5px;font-weight:700;letter-spacing:1.2px;
-  text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:6px;margin-bottom:5px
-}
-.vincolo .v-x{font-family:var(--head);font-size:17.5px;font-weight:600;color:var(--text);line-height:1.35}
-
-.addrow{display:flex;gap:9px;align-items:stretch;margin:12px 0}
-.addrow input{
-  flex:1 1 auto;min-width:0;padding:14px 15px;border-radius:13px;border:1.5px solid var(--brd2);
-  background:#fff;color:var(--text)
-}
-.addrow input:disabled{background:var(--warm);color:var(--light)}
-.addrow .add{
-  flex:0 0 auto;width:54px;border-radius:13px;background:var(--blu);color:#fff;
-  display:flex;align-items:center;justify-content:center
-}
-.addrow .add svg{width:22px;height:22px}
-.addrow .add[disabled]{opacity:.4;pointer-events:none}
-
-.ideas{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:7px}
-.idea{
-  display:flex;align-items:flex-start;gap:10px;background:var(--card);border:1px solid var(--brd);
-  border-radius:12px;padding:11px 12px
-}
-.idea.fresh{animation:fadeUp .26s ease}
-.idea .ix{
-  flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--warm);color:var(--blu);
-  font-family:var(--head);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px
-}
-.idea .itx{flex:1 1 auto;font-size:16.5px;line-height:1.42;word-break:break-word}
-.idea.aftv{border-color:rgba(184,134,11,.45)}
-.idea.aftv .ix{background:var(--goldL);color:var(--gold)}
-.idea .star{
-  flex:0 0 auto;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;
-  color:var(--light);border:1px solid var(--brd);background:var(--card)
-}
-.idea .star svg{width:19px;height:19px}
-.idea.orig .star{color:var(--gold);background:var(--goldL);border-color:rgba(184,134,11,.4)}
-.idea.pick{border-color:var(--blu);background:var(--bluL);box-shadow:0 0 0 1.5px var(--blu) inset}
-.idea .sel{
-  flex:0 0 auto;width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;
-  color:var(--light);border:1px solid var(--brd);background:var(--card)
-}
-.idea.pick .sel{color:#fff;background:var(--blu);border-color:var(--blu)}
-.idea .sel svg{width:19px;height:19px}
-
-.phase-t{
-  font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
-  color:var(--blu);margin:18px 0 6px;display:flex;align-items:center;gap:7px
-}
-.dots{display:flex;gap:6px;justify-content:center;margin:2px 0 12px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--warm);border:1px solid var(--brd)}
-.dot.done{background:var(--blu);border-color:var(--blu)}
-.dot.now{background:var(--gold2);border-color:var(--gold2);transform:scale(1.28)}
+.dots{display:flex;gap:8px;justify-content:center;margin:2px 0 14px}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--warm);border:1px solid var(--brd2)}
+.dot.filled{background:var(--gold2);border-color:var(--gold2)}
+.dot.now{outline:2px solid var(--blu);outline-offset:2px}
 
 /* ---------- campi di scrittura ---------- */
 textarea{
@@ -409,6 +270,8 @@ label.fld .lab{
   color:var(--muted);line-height:1.3;text-align:left
 }
 .pill:active{background:var(--bluL)}
+.pills.scelta .pill{font-family:var(--head);font-weight:500}
+.pills.scelta .pill.on{background:var(--blu);border-color:var(--blu);color:#fff}
 
 /* ---------- esito finale ---------- */
 .score{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin:14px 0}
@@ -467,7 +330,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
   <div class="brand">
     <div class="brand-txt">
       <span class="brand-name">Scuola Sacra Famiglia</span>
-      <span class="brand-role">Animatore Digitale · Andrea Cerioli</span>
+      <span class="brand-role">Scuole di Martinengo e Orzinuovi</span>
     </div>
   </div>
 </div>
@@ -483,19 +346,19 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 <section class="scr on" data-i="0">
   <div class="eyebrow">Sfondo integratore · 2026/2027</div>
   <h1>Coltiviamo pensieri creativi</h1>
-  <p class="lead">Un allenamento di quindici minuti, con il telefono in mano. Non per i ragazzi: per noi.</p>
+  <p class="lead">Quindici minuti, con il telefono in mano. Non per i ragazzi: per noi.</p>
 
   <div class="card dark">
-    <p style="margin-bottom:10px">Alla fine avrai un numero che ti riguarda: <b>quante idee diverse riesci a produrre in novanta secondi</b>.</p>
-    <p class="muted" style="margin:0">Prima però dovrai scommettere su quanto vale quel numero. Quasi certamente sbaglierai la scommessa — e il modo in cui la sbaglierai è la parte interessante.</p>
+    <p style="margin-bottom:10px">Una premessa e quattro momenti. In mezzo, <b>cinque oggetti comuni</b> e una domanda che di solito facciamo solo ai bambini.</p>
+    <p class="muted" style="margin:0">Alla fine ti resteranno cinque consegne pronte — e una domanda che riguarda te.</p>
   </div>
 
   <h3>Come funziona</h3>
   <ul class="reslist" style="margin-bottom:6px">
-    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h16v13H4z"/><path d="M10 9.5l5 2.5-5 2.5z"/></svg></div><div class="rt"><em>Atto I</em>Un video di due minuti e mezzo, con sei tappe che si aprono da sole.</div></li>
-    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg></div><div class="rt"><em>Atto II</em>Cinque oggetti, novanta secondi ciascuno. Qui si lavora.</div></li>
-    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.4 5 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4L4.2 9.3l5.4-.8z"/></svg></div><div class="rt"><em>Atto III e IV</em>Due storie vere: una navicella e un conto in banca.</div></li>
-    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="rt"><em>Chiusura</em>Il tuo taccuino: cinque consegne pronte per le tue classi.</div></li>
+    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h16v13H4z"/><path d="M10 9.5l5 2.5-5 2.5z"/></svg></div><div class="rt"><em>Atto I</em>Un video di due minuti e mezzo.</div></li>
+    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M8.5 12.5l2.4 2.4 4.6-5"/></svg></div><div class="rt"><em>Atto II</em>Cinque oggetti da reinventare. Qui si lavora.</div></li>
+    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.4 5 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4L4.2 9.3l5.4-.8z"/></svg></div><div class="rt"><em>Atto III e IV</em>Due storie vere: una navicella, un conto in banca.</div></li>
+    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="rt"><em>Chiusura</em>Cinque consegne pronte per le tue classi.</div></li>
   </ul>
 
   <div class="center" style="margin-top:16px">
@@ -508,20 +371,14 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 <section class="scr" data-i="1">
   <div class="eyebrow">Atto I</div>
   <h1>Il due per cento</h1>
-  <p class="lead">Guarda il video fino in fondo. Le sei tappe qui sotto si aprono da sole, una alla volta.</p>
+  <p class="lead">Due minuti e mezzo. È la premessa di tutto: guardalo prima di entrare in bottega.</p>
 
   <div class="player vert" id="p1"></div>
-  <div class="vhint">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 8v5"/><circle cx="12" cy="16.4" r=".6" fill="currentColor"/><circle cx="12" cy="12" r="8.6"/></svg>
-    <span>Tocca una tappa aperta per vederla intera.</span>
-  </div>
 
-  <div class="tappe" id="tappe"></div>
-
-  <div id="revealA1" style="display:none">
+  <div id="revealA1">
     <hr class="hr" />
-    <h2>Quel numero non parla degli adulti in generale</h2>
-    <p>Parla di noi. Di chi ha passato tredici anni da studente a cercare la risposta giusta e poi altri venti, dall'altra parte della cattedra, a chiederla.</p>
+    <h2>Quel 2% parla di noi</h2>
+    <p>Di chi ha passato tredici anni a cercare la risposta giusta, e altri venti a chiederla dall'altra parte della cattedra.</p>
 
     <div class="fact">
       <div class="fact-t">
@@ -529,139 +386,105 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
         <span>Per essere precisi</span>
       </div>
       <p class="small">Land e Jarman misuravano il <b>pensiero divergente</b>, non la creatività in assoluto: <b>98%</b> a 5 anni, <b>30%</b> a 10, <b>12%</b> a 15, <b>2%</b> da adulti.</p>
-      <p class="small">Un bambino di cinque anni non ha filtri: "una graffetta per andare sulla Luna" è divergente e inservibile. Crescendo impariamo a convergere perché senza non si vive: si decide, si sceglie, si porta a termine.</p>
-      <p class="small" style="margin-bottom:0">Il problema non è avere il pensiero convergente. È <b>avere solo quello</b> — e trasmettere solo quello.</p>
+      <p class="small">A cinque anni non ci sono filtri: "una graffetta per andare sulla Luna" è divergente e inservibile. Crescendo impariamo a convergere, perché senza non si decide nulla.</p>
+      <p class="small" style="margin-bottom:0">Il problema non è avere il pensiero convergente: è <b>avere solo quello</b>.</p>
     </div>
 
-    <p>Guilford lo aveva già detto negli anni Cinquanta: sono due movimenti diversi. Uno apre, l'altro chiude. La scuola è bravissima ad allenare il secondo. Il primo, quando entra in classe, di solito ci entra per sbaglio.</p>
+    <p>Guilford lo diceva già negli anni Cinquanta: sono due movimenti diversi. Uno apre, l'altro chiude. La scuola allena benissimo il secondo.</p>
   </div>
 </section>
 
-<!-- ============ 2 · LA SCOMMESSA ============ -->
+<!-- ============ 2 · LA BOTTEGA ============ -->
 <section class="scr" data-i="2">
-  <div class="eyebrow">Prima di provare</div>
-  <h1>Scommetti su te stesso</h1>
-  <p class="lead">Tra un attimo avrai <b>novanta secondi</b> per elencare usi diversi di un oggetto comune. Non usi corretti: usi <i>diversi</i>.</p>
-  <p>Quanti pensi di riuscire a scriverne?</p>
-
-  <div class="card">
-    <div class="guess">
-      <div class="guess-n" id="guessN">8</div>
-      <div class="guess-u">idee in novanta secondi</div>
-    </div>
-    <input type="range" id="guess" min="1" max="30" value="8" step="1" aria-label="Quante idee pensi di produrre in novanta secondi" />
-    <div class="range-ends"><span>1</span><span>30</span></div>
-  </div>
-
-  <p class="tiny">Il numero resta sul tuo telefono e serve a una cosa sola: al confronto finale. Non c'è una risposta giusta — sarebbe piuttosto ironico.</p>
-</section>
-
-<!-- ============ 3 · LA BOTTEGA ============ -->
-<section class="scr" data-i="3">
   <div id="botIntro">
     <div class="eyebrow">Atto II</div>
     <h1>La bottega dei cinque oggetti</h1>
-    <p class="lead">Cinque oggetti presi in prestito dalle nostre discipline. Novanta secondi ciascuno.</p>
+    <p class="lead">Cinque oggetti presi in prestito dalle nostre discipline. Per ognuno, una domanda sola: <b>in quanti modi diversi lo useresti?</b></p>
 
     <div class="card">
-      <h3>Tre regole</h3>
-      <p class="small" style="margin-bottom:8px"><b>1. Quantità prima di qualità.</b> Il filtro viene dopo, non durante.</p>
-      <p class="small" style="margin-bottom:8px"><b>2. Non giudicare mentre generi.</b> L'idea che scarti è quella che sblocca la successiva.</p>
-      <p class="small" style="margin-bottom:0"><b>3. L'idea ridicola vale.</b> Scrivila lo stesso: è il segnale che hai smesso di censurarti.</p>
+      <h3>Come si sta in bottega</h3>
+      <p class="small" style="margin-bottom:8px"><b>Nessuna risposta è quella giusta.</b> Anzi: più sono lontane fra loro, meglio è.</p>
+      <p class="small" style="margin-bottom:8px"><b>Scrivi prima, giudica dopo.</b> Anche l'idea che ti sembra sciocca: spesso è quella che ne apre un'altra.</p>
+      <p class="small" style="margin-bottom:0"><b>Non c'è fretta.</b> Se ti blocchi, sotto trovi degli spunti per ripartire.</p>
     </div>
 
-    <div class="fact">
-      <div class="fact-t">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg>
-        <span>A metà tempo arriva un vincolo</span>
+    <div class="card flat">
+      <h3>Insegno alla</h3>
+      <div class="pills scelta" id="scuolaPick">
+        <button class="pill" data-sc="primaria">Primaria</button>
+        <button class="pill" data-sc="secondaria">Secondaria</button>
+        <button class="pill" data-sc="non detto">Preferisco non dirlo</button>
       </div>
-      <p class="small" style="margin-bottom:0">Non è un dispetto. Le prime idee sono quelle che avevi già; il vincolo serve a far ripartire la macchina quando si ferma. Alla fine vedrai quante ne sono nate dopo.</p>
+      <p class="tiny" style="margin:10px 0 0">Serve solo a leggere i risultati per ordine di scuola.</p>
     </div>
+
+    <p class="tiny">Ciò che scrivi viene raccolto in forma anonima, per restituirlo al collegio. Nessun nome, nessuna classe.</p>
 
     <button class="btn gold" id="botGo">
-      <span>Apri la bottega</span>
+      <span>Entra nella bottega</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5L16 12l-6.5 6.5"/></svg>
     </button>
   </div>
 
   <div id="botRun" style="display:none">
     <div class="dots" id="botDots"></div>
-    <div class="obj-head">
-      <div class="obj-ico" id="objIco"></div>
-      <div>
+
+    <div class="obj-stage">
+      <div class="obj-illu" id="objIllu"></div>
+      <div class="obj-txt">
         <div class="obj-of">Oggetto <span id="objN">1</span> di <span id="objTot">5</span></div>
         <div class="obj-name" id="objName">—</div>
         <div class="obj-area" id="objArea">—</div>
       </div>
     </div>
 
-    <div id="phaseGen">
-      <div class="timer">
-        <div class="ring" id="ring"><i></i><b id="ringT">90</b></div>
-        <div class="timer-txt" id="timerTxt">In quanti modi diversi si può usare? Scrivi e invia, una per volta.</div>
+    <p class="consegna" id="objAsk">In quanti modi diversi lo useresti? Scrivi liberamente, uno per riga.</p>
+
+    <textarea id="objBox" class="objbox" placeholder="Un uso, un'idea, anche assurda…" autocapitalize="sentences"></textarea>
+
+    <div class="scaff">
+      <div class="scaff-t">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 1 3.6 10.8c-.6.5-.9 1-.9 1.7H9.3c0-.7-.3-1.2-.9-1.7A6 6 0 0 1 12 3Z"/></svg>
+        <span>Se ti blocchi, prova a pensarlo così</span>
       </div>
-      <div id="vincoli"></div>
-      <div class="addrow">
-        <input type="text" id="ideaIn" placeholder="Un uso diverso…" autocomplete="off" autocapitalize="sentences" enterkeyhint="done" />
-        <button class="add" id="ideaAdd" aria-label="Aggiungi l'idea">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-        </button>
-      </div>
-      <p class="tiny" id="stuckHint" style="display:none">Se sei fermo: <span id="leve"></span></p>
-      <ul class="ideas" id="ideaList"></ul>
-      <div style="margin-top:14px" id="startWrap">
-        <button class="btn gold" id="startRound">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5l12 7-12 7z"/></svg>
-          Via, novanta secondi
-        </button>
-      </div>
+      <div class="chips" id="objChips"></div>
     </div>
 
-    <div id="phasePick" style="display:none">
-      <div class="phase-t">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="2" stroke-linecap="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
-        <span>Tempo scaduto</span>
-      </div>
-      <p class="small" id="pickLead">—</p>
-      <p class="small"><b>Uno:</b> segna con la stella le idee che secondo te <b>nessun altro</b> avrebbe scritto.<br /><b>Due:</b> scegli <b>una sola</b> idea da portare davvero in classe. Una: è la parte che costa.</p>
-      <ul class="ideas" id="pickList"></ul>
-      <div style="margin-top:14px">
-        <button class="btn" id="confirmPick" disabled>Confermo la scelta</button>
-      </div>
+    <div class="objnav">
+      <button class="btn ghost" id="objPrev" aria-label="Oggetto precedente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5L8 12l6.5 6.5"/></svg>
+        <span>Precedente</span>
+      </button>
+      <button class="btn gold" id="objNext2">
+        <span id="objNext2Txt">Prossimo</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5L16 12l-6.5 6.5"/></svg>
+      </button>
     </div>
   </div>
 </section>
 
-<!-- ============ 4 · ATTO III ============ -->
-<section class="scr" data-i="4">
+<!-- ============ 3 · ATTO III ============ -->
+<section class="scr" data-i="3">
   <div class="eyebrow">Atto III</div>
   <h1>Quando la risposta giusta non esiste</h1>
-  <p class="lead">Aprile 1970. A trecentomila chilometri da casa l'anidride carbonica sale nella cabina. I filtri del modulo di comando sono quadrati; gli alloggiamenti del modulo lunare, dove l'equipaggio si è rifugiato, sono rotondi.</p>
-  <p>A terra rovesciano su un tavolo esattamente ciò che c'è a bordo — un calzino, del nastro adesivo, la copertina di un manuale, un tubo della tuta. Niente di più. E hanno poche ore.</p>
+  <p class="lead">Aprile 1970. L'anidride carbonica sale nella cabina. I filtri buoni sono quadrati, gli alloggiamenti rotondi.</p>
+  <p>A terra rovesciano su un tavolo solo quello che c'è a bordo: nastro adesivo, la copertina di un manuale, un calzino, un tubo della tuta. Hanno poche ore.</p>
 
   <div class="player" id="p2"></div>
   <p class="tiny">Sequenza da <i>Apollo 13</i> (1995), ricostruzione della soluzione del filtro dell'anidride carbonica.</p>
 
-  <button class="infog" id="apolloBtn">
-    <span class="infog-img"><img src="apollo13-web.jpg" alt="Infografica: come fu risolto il problema del filtro sull'Apollo 13" loading="lazy" /></span>
-    <span class="infog-txt">
-      <span class="infog-t">La vicenda in una pagina</span>
-      <span class="infog-s">Il guasto, il vincolo geometrico, i materiali disponibili, la soluzione. Tocca per aprire.</span>
-    </span>
-  </button>
-
-  <div id="revealA3" style="display:none">
+  <div id="revealA3">
     <hr class="hr" />
-    <h2>Nessuno, quel giorno, ha chiesto la risposta corretta</h2>
-    <p>Hanno chiesto <b>tutte</b> le risposte possibili. Poi, e solo poi, ne hanno scelta una che funzionasse.</p>
-    <p>Prima divergere, dopo convergere. In quest'ordine. Invertirlo — chiedere subito la soluzione giusta — è quello che facciamo quasi ogni giorno, quasi sempre in buona fede, perché il tempo è poco e la verifica è venerdì.</p>
+    <h2>Nessuno chiese la risposta corretta</h2>
+    <p>Le chiesero <b>tutte</b>. Poi, solo poi, ne scelsero una che funzionava.</p>
+    <p>Prima divergere, dopo convergere. Invertire l'ordine — chiedere subito quella giusta — è ciò che facciamo quasi ogni giorno: il tempo è poco e la verifica è venerdì.</p>
 
     <div class="fact">
       <div class="fact-t">
         <svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
         <span>Il vincolo non spegne: accende</span>
       </div>
-      <p class="small" style="margin-bottom:0">Una scatola vuota non produce idee. Una scatola con dentro un calzino, del nastro e tre ore di ossigeno sì. È lo stesso motivo per cui i tuoi novanta secondi hanno prodotto più idee <i>dopo</i> il vincolo che prima.</p>
+      <p class="small" style="margin-bottom:0">Una scatola vuota non produce idee. Una scatola con un calzino, del nastro e tre ore di ossigeno sì. È lo stesso motivo per cui un oggetto preciso — una clessidra, una corda — fa venire in mente più usi di una pagina bianca.</p>
     </div>
 
     <div class="task">
@@ -669,7 +492,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
         <svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg>
         <span>L'idea diventa azione</span>
       </div>
-      <p class="small">Prendi una consegna che dai spesso. Riscrivila aggiungendo un vincolo che la renda <b>impossibile da svolgere nel modo abituale</b>.</p>
+      <p class="small">Prendi una consegna che dai spesso. Aggiungi un vincolo che la renda <b>impossibile da svolgere come sempre</b>.</p>
       <label class="fld">
         <span class="lab">La mia consegna, con il vincolo dentro</span>
         <textarea id="fVincolo" placeholder="Di solito chiedo… d'ora in poi chiedo lo stesso, ma…"></textarea>
@@ -680,25 +503,25 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
   </div>
 </section>
 
-<!-- ============ 5 · ATTO IV ============ -->
-<section class="scr" data-i="5">
+<!-- ============ 4 · ATTO IV ============ -->
+<section class="scr" data-i="4">
   <div class="eyebrow">Atto IV</div>
   <h1>Il conto che si azzera ogni sera</h1>
   <p class="lead">Un ultimo video, quarantacinque secondi.</p>
 
   <div class="player" id="p3"></div>
 
-  <div id="revealA4" style="display:none">
+  <div id="revealA4">
     <hr class="hr" />
     <h2>Il tempo non è l'alibi</h2>
-    <p>I novanta secondi che hai appena speso cinque volte durano quanto un appello. La domanda non è <i>se</i> hai tempo per il pensiero divergente: è quanto tempo stai già spendendo per la sola risposta corretta.</p>
+    <p>Reinventare cinque oggetti dura quanto un appello. La domanda non è <i>se</i> hai tempo per il pensiero divergente: è quanto ne stai già spendendo per la sola risposta corretta.</p>
 
     <div class="fact">
       <div class="fact-t">
         <svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7v5.2l3.2 2"/></svg>
         <span>Una nota da usare in classe</span>
       </div>
-      <p class="small" style="margin-bottom:0">Il video dice <b>84.600</b>. I secondi di una giornata sono <b>86.400</b> — ventiquattro per sessanta per sessanta: le cifre sono invertite. È un errore che gira parecchio in rete. Far trovare lo sbaglio ai ragazzi, invece di correggerlo tu, è già mezza lezione di pensiero critico: nessuna delle due cifre è "la risposta"; il calcolo lo è.</p>
+      <p class="small" style="margin-bottom:0">Il video dice <b>84.600</b>. I secondi di un giorno sono <b>86.400</b> (24×60×60): cifre invertite. Farlo scoprire ai ragazzi, invece di correggerlo tu, è già mezza lezione di pensiero critico.</p>
     </div>
 
     <div class="task">
@@ -706,48 +529,40 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
         <svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
         <span>L'idea diventa azione</span>
       </div>
-      <p class="small" style="margin-bottom:0">Ritaglia <b>novanta secondi</b> in una lezione della prossima settimana. Un solo oggetto, una sola domanda aperta, nessun voto. Fra poco decidi quale.</p>
+      <p class="small" style="margin-bottom:0">Ritaglia <b>novanta secondi</b> in una lezione della prossima settimana. Un oggetto, una domanda aperta, nessun voto.</p>
     </div>
   </div>
 </section>
 
-<!-- ============ 6 · CHIUSURA ============ -->
-<section class="scr" data-i="6">
+<!-- ============ 5 · CHIUSURA ============ -->
+<section class="scr" data-i="5">
   <div class="eyebrow">Chiusura</div>
-  <h1>Il numero che ti avevo promesso</h1>
+  <h1>Quello che hai raccolto</h1>
 
   <div class="verdict" id="verdict">
     <div class="big" id="verdictBig">—</div>
     <div class="sub" id="verdictSub">—</div>
   </div>
 
-  <div class="score">
-    <div class="sc"><div class="n" id="scFlu">0</div><div class="l">idee<br />in tutto</div></div>
-    <div class="sc gold"><div class="n" id="scDopo">0</div><div class="l">nate dopo<br />il vincolo</div></div>
-    <div class="sc"><div class="n" id="scOrig">0</div><div class="l">solo<br />tue</div></div>
-  </div>
-  <p class="tiny" id="scNote">—</p>
-
-  <hr class="hr" />
-  <h2>Le tue cinque consegne</h2>
-  <p class="small">Una per oggetto: quelle che hai scelto di portare in classe davvero.</p>
-  <ul class="reslist" id="chosen"></ul>
+  <h2>I tuoi cinque oggetti</h2>
+  <p class="small">Quello che hai scritto, pronto da portare in classe.</p>
+  <div class="reslist" id="chosen"></div>
 
   <hr class="hr" />
   <h2>Che cosa mi porto via</h2>
-  <label class="fld"><span class="lab">Che cosa ho capito?</span><textarea id="m1" placeholder="Anche una riga sola."></textarea></label>
-  <label class="fld"><span class="lab">Come ci sono arrivato?</span><textarea id="m2" placeholder="Che cosa ha sbloccato le idee: il tempo, il vincolo, un oggetto in particolare…"></textarea></label>
-  <label class="fld"><span class="lab">Che cosa cambierei, la prossima volta?</span><textarea id="m3" placeholder="Di me, non dell'app."></textarea></label>
+  <label class="fld"><span class="lab">Con quale oggetto ho fatto più fatica? Perché?</span><textarea id="m1" placeholder="Anche una riga sola."></textarea></label>
+  <label class="fld"><span class="lab">Che cosa ha sbloccato le idee, quando si erano fermate?</span><textarea id="m2" placeholder="Uno spunto, un oggetto in particolare, il non avere fretta…"></textarea></label>
+  <label class="fld"><span class="lab">Quante risposte diverse accetto, di solito, da chi ho in classe?</span><textarea id="m3" placeholder="La domanda vera dell'attività è questa."></textarea></label>
 
   <div class="task" style="margin-top:20px">
     <div class="task-t">
       <svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
       <span>Il patto: una cosa sola</span>
     </div>
-    <p class="small">Non un piano. Una micro-azione concreta, con una classe e un giorno.</p>
+    <p class="small">Non un piano: una cosa sola, con una classe e un giorno.</p>
     <label class="fld"><span class="lab">In classe</span><input type="text" id="pClasse" class="tin" placeholder="1ª B" autocomplete="off" /></label>
     <label class="fld"><span class="lab">Quando</span><input type="text" id="pQuando" class="tin" placeholder="martedì, prima ora" autocomplete="off" /></label>
-    <label class="fld"><span class="lab">Farò questo</span><textarea id="pAzione" placeholder="Novanta secondi con…"></textarea></label>
+    <label class="fld"><span class="lab">Farò questo</span><textarea id="pAzione" placeholder="Un oggetto, una domanda aperta, nessun voto…"></textarea></label>
   </div>
 
   <hr class="hr" />
@@ -756,45 +571,15 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h10v11H9z"/><path d="M15 9V4H5v11h4"/></svg>
       Copia il mio taccuino
     </button>
-    <button class="btn ghost" id="again">Rigioca con altri vincoli</button>
+    <button class="btn ghost" id="again">Ricomincia con altri oggetti</button>
   </div>
 
   <div class="card dark" style="margin-top:22px">
-    <p style="margin-bottom:10px">Il 98% dei cinque anni non torna: nessuno lo rimpiange davvero, perché insieme a quello tornerebbe anche la graffetta che va sulla Luna.</p>
-    <p style="margin:0">Ma il 2% non è una condanna. È la misura di quanto poco lo alleniamo — e novanta secondi, cinque volte, sono bastati a spostarlo. Nella tua classe funziona uguale: l'unica differenza è chi tiene il tempo.</p>
+    <p style="margin-bottom:10px">Il 98% dei cinque anni non torna. E va bene così: con quello tornerebbe anche la graffetta che va sulla Luna.</p>
+    <p style="margin:0">Ma il 2% non è una condanna: è la misura di quanto poco lo alleniamo. Bastano cinque oggetti per riaccorgersene. In classe funziona uguale — cambia solo chi tiene aperta la porta.</p>
   </div>
 
   <div class="seedline" id="seedline2"></div>
-</section>
-
-<!-- ============ 7 · PER RIDERCI SU ============ -->
-<section class="scr" data-i="7">
-  <div class="eyebrow">Coda</div>
-  <h1>Le domande degli studenti</h1>
-  <p class="lead">Per riderci su. Perché una domanda spiazzante, in fondo, è pensiero divergente che bussa alla porta nel momento meno opportuno.</p>
-  <p class="tiny">Sono spettacoli interi: guardane un pezzo quando hai voglia, non c'è niente da completare.</p>
-
-  <div class="ridere-g">
-    <h2 class="ridere-t">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7.5h16M4 12h16M4 16.5h10"/></svg>
-      <span>Scuola Primaria · le maestre</span>
-    </h2>
-    <div class="player" data-yt="b4ZUycaf7q4"></div>
-    <div class="player" data-yt="LOur7-tSc10"></div>
-  </div>
-
-  <div class="ridere-g">
-    <h2 class="ridere-t">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5.5L3.5 9.5 12 13.5l8.5-4z"/><path d="M7 11.5v4c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5v-4"/></svg>
-      <span>Scuola Secondaria · i prof</span>
-    </h2>
-    <div class="player" data-yt="PMz7JVxkzlE"></div>
-    <div class="player" data-yt="OPx_upbl-Tc"></div>
-  </div>
-
-  <div class="card dark">
-    <p style="margin:0">Buon anno di lavoro. E se durante una lezione arriva la domanda che manda tutto all'aria — quella che non c'entra niente e a cui non sai rispondere — ricordati che fino a un attimo prima stavi cercando esattamente quello.</p>
-  </div>
 </section>
 
 </main>
@@ -812,7 +597,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 </div>
 
 <footer>
-  <p>Scuola Sacra Famiglia · Orzinuovi (BS) — Formazione docenti, sfondo integratore 2026/2027.<br />Tutto ciò che scrivi resta su questo dispositivo.</p>
+  <p>Scuola Sacra Famiglia · Martinengo e Orzinuovi<br />Formazione docenti — sfondo integratore 2026/2027.</p>
 </footer>
 
 <!-- ============ MODALE METODOLOGIA ============ -->
@@ -827,30 +612,21 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
     <h3>Il quadro teorico</h3>
     <p class="small"><b>Guilford (1950)</b> — pensiero divergente (generare molte soluzioni da uno stimolo) e convergente (arrivare all'unica risposta logicamente corretta). L'esercizio dei cinque oggetti è una variante dell'<b>Alternative Uses Test</b>, che Guilford stesso mise a punto.</p>
     <p class="small"><b>Land e Jarman (1968-1992)</b> — lo studio longitudinale su 1.600 bambini: 98% a 5 anni, 30% a 10, 12% a 15, 2% da adulti. Misurava il pensiero divergente, non la creatività in assoluto: la distinzione è nell'app, non nascosta.</p>
-    <p class="small"><b>Dewey</b> — prima si fa, poi si capisce: l'esercizio viene prima della spiegazione. <b>Bandura</b> — la previsione iniziale confrontata con il risultato reale è una misura di autoefficacia, non un punteggio. <b>Metacognizione</b> — l'attività si chiude sulle tre domande e su un impegno concreto, altrimenti resta un gioco.</p>
+    <p class="small"><b>Dewey</b> — prima si fa, poi si capisce: la bottega viene prima della spiegazione. <b>Vygotskij</b> — gli spunti scaffolding sono l'appoggio calibrato per chi "non sa da dove partire", da ritirare appena la mano riparte. <b>Metacognizione</b> — l'attività si chiude sulle tre domande e su un impegno concreto, altrimenti resta un gioco.</p>
 
-    <h3>Come misura</h3>
-    <p class="small"><b>Fluidità</b>: quante idee. <b>Effetto-vincolo</b>: quante sono nate dopo l'introduzione del vincolo — è l'indice che il blocco era di abitudine, non di capacità. <b>Originalità</b>: quante ritieni che nessun altro avrebbe scritto (autovalutazione, non classifica).</p>
+    <h3>Che cosa si porta a casa</h3>
+    <p class="small">Non un punteggio, ma un <b>prodotto</b>: cinque consegne scritte di proprio pugno, una per oggetto, più un impegno datato. La domanda vera non è "quante idee sai produrre", ma "quante ne concedi a chi hai in classe".</p>
 
     <h3>Ricaduta sugli studenti</h3>
-    <p class="small">L'uscita dell'attività sono cinque micro-consegne pronte, una per oggetto, più un impegno datato. Under 14: nessun uso diretto di IA generativa: gli oggetti sono reali, le idee si scrivono a mano o a voce.</p>
+    <p class="small">Under 14: nessun uso diretto di IA generativa. Gli oggetti sono reali, le idee si scrivono a mano o a voce. Il docente sperimenta su di sé la differenza fra chiedere una risposta e chiederne molte.</p>
 
     <h3>In collegio</h3>
-    <p class="small">Aggiungendo <span class="mono">?seed=collegio</span> all'indirizzo, tutti ricevono <b>gli stessi vincoli nello stesso ordine</b>: i risultati diventano confrontabili e la discussione ha senso. Senza parametro, ogni sessione è diversa.</p>
+    <p class="small">Aggiungendo <span class="mono">?seed=collegio</span> all'indirizzo, tutti ricevono <b>gli stessi cinque oggetti nello stesso ordine</b>: i risultati diventano confrontabili e la discussione ha senso. Senza parametro, ogni sessione mescola l'ordine.</p>
 
     <h3>Dati</h3>
-    <p class="small" style="margin-bottom:18px">Niente account, niente invii, nessun dato lascia il telefono. Il salvataggio è locale e serve solo a riprendere dove hai lasciato.</p>
+    <p class="small">Le idee scritte vengono raccolte <b>in forma anonima</b> su un foglio di calcolo della scuola, per poterle restituire al collegio. Non vengono chiesti né inviati nome, classe o materia: l'unico identificativo è un codice casuale generato dal telefono, che serve solo a tenere insieme le risposte della stessa sessione.</p>
+    <p class="small" style="margin-bottom:18px">Il resto (le tue note, il patto finale) resta sul dispositivo.</p>
     <button class="btn ghost" data-close="mMeta">Chiudi</button>
-  </div>
-</div>
-
-<div class="lb" id="lb" role="dialog" aria-modal="true">
-  <button class="lb-x" id="lbX" aria-label="Chiudi">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-  </button>
-  <div class="lb-in">
-    <img id="lbImg" alt="" />
-    <p class="lb-cap" id="lbCap"></p>
   </div>
 </div>
 
@@ -859,6 +635,15 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 <script>
 (function(){
 "use strict";
+
+/* ============================================================================
+   RACCOLTA DATI — anonima, per la restituzione al collegio.
+   Incolla qui l'URL del deployment Apps Script (finisce con /exec).
+   Finche' resta vuoto l'app funziona lo stesso e non invia nulla.
+   Istruzioni e codice del foglio: vedi apps-script.gs, accanto a questo file.
+   ============================================================================ */
+var SHEET_URL='https://script.google.com/macros/s/AKfycbwCpNDIu1OLD5CnlaYmmhg_i8R9Ky_xx11-Xi5wq_tEvwA1U1jH1djnLyeKWeBaSfc5/exec';
+
 
 /* ================= PRNG deterministico (seed condivisibile) ================= */
 function cyrb53(s,seed){
@@ -884,12 +669,13 @@ function shuffle(arr,r){
 }
 
 /* ================= dati ================= */
-var ICONE={
-  mappamondo:'<g fill="none" stroke="var(--blu)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="27" r="17"/><ellipse cx="32" cy="27" rx="7.5" ry="17"/><path d="M15 27H49"/><path stroke-width="1.8" d="M17.5 19.5C23 22 41 22 46.5 19.5"/><path stroke-width="1.8" d="M17.5 34.5C23 32 41 32 46.5 34.5"/><path stroke="var(--gold)" d="M32 7.5A19.5 19.5 0 1 1 32 46.5"/><path stroke="var(--gold)" d="M32 46.5V54"/><path stroke="var(--gold)" d="M22 54H42"/></g>',
-  clessidra:'<g fill="none" stroke="var(--blu)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10H46"/><path d="M18 54H46"/><path d="M22 10H42C42 22 32.6 27 32 32C31.4 27 22 22 22 10Z"/><path d="M22 54H42C42 42 32.6 37 32 32C31.4 37 22 42 22 54Z"/><path fill="var(--gold)" stroke="none" d="M23.4 17H40.6C39.2 25 32.6 28.6 32 31.6C31.4 28.6 24.8 25 23.4 17Z"/><path fill="var(--gold)" stroke="none" d="M25.5 51C27 45 30 42 32 42C34 42 37 45 38.5 51Z"/><circle fill="var(--gold)" stroke="none" cx="32" cy="36" r="1"/><circle fill="var(--gold)" stroke="none" cx="32" cy="39.5" r="0.8"/></g>',
-  dizionario:'<g fill="none" stroke="var(--blu)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M32 17C26.5 13.5 18 12 10 13V46C18 45 26.5 46.5 32 50Z"/><path d="M32 17C37.5 13.5 46 12 54 13V46C46 45 37.5 46.5 32 50Z"/><path stroke-width="1.8" d="M15 22H27M15 28H27M15 34H24"/><path stroke-width="1.8" d="M37 22H49M37 28H49M37 34H46"/><path fill="var(--gold)" stroke="none" d="M28.5 48.5V58L32 55.2L35.5 58V50Z"/></g>',
-  metronomo:'<g fill="none" stroke="var(--blu)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M27 20H37L43 52H21Z"/><path d="M18 52H46"/><path stroke-width="1.8" d="M24.5 36H39.5"/><path stroke="var(--gold)" d="M32 45L39 11"/><rect fill="var(--gold)" stroke="none" x="29.9" y="29.4" width="10" height="5.2" rx="1.2" transform="rotate(11.6 34.9 32)"/><circle fill="var(--gold)" stroke="none" cx="32" cy="45" r="2.2"/></g>',
-  corda:'<g fill="none" stroke="var(--blu)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path stroke="var(--gold)" d="M26 29A8.5 8.5 0 1 1 38 29"/><path d="M26 29C29 35 34 39 40 41C45 42.6 50 43 55 43.5"/><path d="M38 29C36.5 32 35 34.5 33.3 36.5"/><path d="M28.6 40C24 42 18 43 9 43.5"/></g>'
+
+var ILLU={
+  mappamondo:'<g fill="none" stroke="var(--blu)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"> <path stroke="var(--brd2)" stroke-width="2.6" d="M18 106H102"/> <circle cx="60" cy="47" r="30"/> <ellipse cx="60" cy="47" rx="13" ry="30"/> <path d="M30 47H90"/> <path stroke-width="2" d="M34.5 33C44 37 76 37 85.5 33"/> <path stroke-width="2" d="M34.5 61C44 57 76 57 85.5 61"/> <path stroke-width="2" d="M43 24.5C49 27 71 27 77 24.5"/> <path stroke-width="2" d="M43 69.5C49 67 71 67 77 69.5"/> <path stroke="var(--gold)" d="M60 13A34 34 0 1 1 60 81"/> <path stroke="var(--gold)" d="M60 81V93"/> <path stroke="var(--gold)" d="M44 106C44 98 51 93 60 93C69 93 76 98 76 106"/> </g>',
+  clessidra:'<g fill="none" stroke="var(--blu)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"> <path d="M32 16H88"/> <path d="M32 104H88"/> <path d="M40 16H80C80 40 61.5 50 60 60C58.5 50 40 40 40 16Z"/> <path d="M40 104H80C80 80 61.5 70 60 60C58.5 70 40 80 40 104Z"/> <path fill="var(--gold)" stroke="none" d="M43.5 29H76.5C74 45 61.5 52.5 60 59C58.5 52.5 46 45 43.5 29Z"/> <path fill="var(--gold)" stroke="none" d="M47 99C50 87 56 80 60 80C64 80 70 87 73 99Z"/> <circle fill="var(--gold)" stroke="none" cx="60" cy="68" r="1.9"/> <circle fill="var(--gold)" stroke="none" cx="60" cy="74.5" r="1.5"/> <path stroke-width="2" d="M34.5 16V104"/> <path stroke-width="2" d="M85.5 16V104"/> </g>',
+  dizionario:'<g fill="none" stroke="var(--blu)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"> <path stroke="var(--brd2)" stroke-width="2.6" d="M14 100H106"/> <path d="M60 33C50 25 33 22 17 24V88C33 86 50 89 60 95Z"/> <path d="M60 33C70 25 87 22 103 24V88C87 86 70 89 60 95Z"/> <path d="M60 33V95"/> <path stroke-width="2" d="M25 43H51M25 53H51M25 63H45"/> <path stroke-width="2" d="M69 43H95M69 53H95M69 63H89"/> <path fill="var(--gold)" stroke="none" d="M52 92V112L60 106.5L68 112V95Z"/> </g>',
+  metronomo:'<g fill="none" stroke="var(--blu)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"> <path stroke="var(--brd2)" stroke-width="2.6" d="M18 104H102"/> <path d="M50 32H70L82 100H38Z"/> <path d="M32 100H88"/> <path stroke-width="2" d="M50 48H55M49 60H54M48 72H53"/> <path stroke="var(--gold)" d="M60 88L72 18"/> <rect fill="var(--gold)" stroke="none" x="58.4" y="41" width="18" height="8" rx="2" transform="rotate(9.7 67.4 45)"/> <circle fill="var(--gold)" stroke="none" cx="60" cy="88" r="3"/> <path stroke-width="2" d="M50 32C50 27 54 24 60 24C66 24 70 27 70 32"/> </g>',
+  corda:'<g fill="none" stroke="var(--blu)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"> <path stroke="var(--gold)" d="M43 53A13 13 0 1 1 61 53"/> <path d="M43 53C48 66 60 74 74 78C82 80.5 91 82 101 82.5"/> <path d="M61 53C58.5 57 55.5 60.5 52.5 63"/> <path d="M46 68.5C39 73.5 29 77.5 18 79"/> </g>'
 };
 
 var OGGETTI=[
@@ -901,34 +687,19 @@ var OGGETTI=[
 ];
 
 /* formulazioni neutre rispetto al genere: valgono sia per "il metronomo" sia per "la corda" */
-var VINCOLI=[
-  'Diventa grande quanto l\'aula.',
-  'Deve stare tutto in una tasca.',
-  'Ha perso la sua funzione originale.',
-  'Deve servire a chi non vede.',
-  'Ora è di ghiaccio, e si scioglie.',
-  'Ne hai trecento uguali.',
-  'Deve far ridere qualcuno.',
-  'Deve funzionare al buio e in silenzio.',
-  'Ora è in due pezzi, e resta così.',
-  'Deve stare fuori, sotto la pioggia, tutto l\'anno.',
-  'Serve a un bambino di sei anni, da solo.',
-  'Non si può toccare con le mani.',
-  'Deve entrare in una materia che non c\'entra niente.',
-  'Serve a due persone nello stesso momento.',
-  'Deve durare fino a giugno.'
+/* Spunti scaffolding (Vygotskij): appigli per chi "non sa da dove partire".
+   Toccandone uno, entra nel box come innesco di scrittura da completare. */
+var SPUNTI=[
+  'E se diventasse gigante?',
+  'E se lo usasse un bambino di sei anni?',
+  'Uniscilo a un oggetto qualsiasi',
+  'Se non potesse più fare il suo mestiere',
+  'Capovolgilo, o immaginalo a pezzi',
+  'Portalo in una materia che non è la sua',
+  'Al buio, o in silenzio',
+  'Se servisse a chi non vede'
 ];
 
-var LEVE=['sostituisci un pezzo','uniscilo a un altro oggetto','capovolgilo','ingigantiscilo','toglici qualcosa','usalo al contrario'];
-
-var TAPPE=[
-  {f:'1.jpg',t:4,  tit:'Il test del genio creativo',   cap:'1968: la NASA commissiona a George Land e Beth Jarman un test per selezionare ingegneri capaci di pensiero divergente. Lo stesso test, dato a bambini di cinque anni, dà il 98% al livello "genio creativo".'},
-  {f:'2.jpg',t:54, tit:'Il crollo',                    cap:'Gli stessi bambini, ritestati: 30% a dieci anni, 12% a quindici. Non cambia il test: cambiano gli anni passati a scuola.'},
-  {f:'3.jpg',t:62, tit:'L\'atrofia',                   cap:'Nel gruppo degli adulti resta il 2%. La capacità non sparisce: smette di essere allenata, perché quasi tutto quello che ci viene chiesto ha una risposta sola.'},
-  {f:'4.jpg',t:74, tit:'Divergente e convergente',     cap:'Guilford, anni Cinquanta: due movimenti diversi del pensiero. Uno apre le possibilità, l\'altro seleziona la risposta corretta. Servono entrambi — nell\'ordine giusto.'},
-  {f:'5.jpg',t:133,tit:'L\'allenamento quotidiano',    cap:'L\'esercizio proposto nel video: ogni mattina un oggetto comune, e l\'elenco di tutti gli usi alternativi che riesci a immaginare. È l\'Alternative Uses Test di Guilford, in versione casalinga.'},
-  {f:'6.jpg',t:145,tit:'Come in palestra',             cap:'Il cervello si comporta come un muscolo: quello che non si usa si indebolisce, quello che si allena torna. Settimana dopo settimana, il pensiero divergente si risveglia.'}
-];
 
 var ESEMPI_VINCOLO=[
   'Riassumi il capitolo in venti parole, senza usare il verbo essere.',
@@ -938,13 +709,11 @@ var ESEMPI_VINCOLO=[
   'Racconta la stessa vicenda dal punto di vista di chi ha perso.'
 ];
 
-var SCREENS=['Copertina','Atto I','La scommessa','La bottega','Atto III','Atto IV','Chiusura','Per riderci su'];
+var SCREENS=['Copertina','Atto I','La bottega','Atto III','Atto IV','Chiusura'];
 var VID={v1:'9wv-HTe0mQc',v2:'ut4I6I-sbLA',v3:'OYrlaD817HM'};
-var DUR=90;      /* secondi per oggetto */
-var V1=[60,30];  /* secondi rimanenti a cui compaiono i due vincoli */
 
 /* ================= stato ================= */
-var KEY='cpc.v1';
+var KEY='cpc.v2';   /* struttura cambiata: v2 scarta gli stati del vecchio gioco a tempo */
 var params=new URLSearchParams(location.search);
 
 function sid(){
@@ -967,14 +736,11 @@ var S=load();
 function freshState(seed){
   var r=mulberry32(cyrb53(seed));
   var ordine=shuffle(OGGETTI.map(function(o){return o.id;}),r);
-  var pool=shuffle(VINCOLI,r);
-  var vincoli={},k=0,i;
-  for(i=0;i<ordine.length;i++){ vincoli[ordine[i]]=[pool[k++%pool.length],pool[k++%pool.length]]; }
   return {
-    seed:seed, v:1, ts:Date.now(),
-    scr:0, guess:8, guessDone:false,
-    ordine:ordine, vincoli:vincoli,
-    round:0, started:false, idee:{}, scelte:{}, done:{},
+    seed:seed, v:2, ts:Date.now(), sid:sid(),
+    scr:0, scuola:'',
+    ordine:ordine,
+    round:0, botOpened:false, testi:{}, done:{},
     fVincolo:'', m1:'', m2:'', m3:'', pClasse:'', pQuando:'', pAzione:''
   };
 }
@@ -985,7 +751,7 @@ function load(){
   if(raw){
     try{
       var s=JSON.parse(raw);
-      if(s&&s.v===1&&(!forced||s.seed===forced)) return s;
+      if(s&&s.v===2&&(!forced||s.seed===forced)) return s;
     }catch(e){}
   }
   return freshState(forced||(sid()+'-'+nextRun()));
@@ -995,11 +761,23 @@ function save(){
   try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
 }
 
+/* ---- invio: pixel GET, l'unico metodo che passa ovunque senza CORS ----
+   Nessun nome, nessuna classe, nessun indirizzo: solo un identificativo casuale
+   del dispositivo, che serve a tenere insieme le righe della stessa sessione. */
+function invia(dati){
+  if(!SHEET_URL) return;
+  try{
+    var q=new URLSearchParams(dati);
+    var url=SHEET_URL+'?'+q.toString();
+    if(url.length>7000) return;      /* oltre il limite pratico della querystring */
+    new Image().src=url;
+  }catch(e){}
+}
+
 /* ================= utilita' ================= */
 function $(id){return document.getElementById(id);}
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function oggettoById(id){for(var i=0;i<OGGETTI.length;i++){if(OGGETTI[i].id===id)return OGGETTI[i];}return null;}
-function ideeDi(id){return S.idee[id]||[];}
 var toastT=null;
 function toast(msg){
   var t=$('toast');t.textContent=msg;t.classList.add('on');
@@ -1025,8 +803,8 @@ function paintSteps(){
 
 function show(i){
   pauseAll();
-  /* uscire dalla bottega ferma il cronometro: il round si riprende da capo, le idee restano */
-  if(i!==3&&running){clearInterval(tick);tick=null;running=false;}
+  /* lasciando la bottega, salva e invia il testo dell'oggetto aperto */
+  if(S.scr===2&&i!==2) inviaOggetto(S.round);
   S.scr=i;save();
   var secs=document.querySelectorAll('.scr'),k;
   for(k=0;k<secs.length;k++) secs[k].classList.toggle('on',+secs[k].dataset.i===i);
@@ -1034,8 +812,8 @@ function show(i){
   $('btnBack').disabled=(i===0);
   window.scrollTo({top:0,behavior:'instant'in document.documentElement.style?'instant':'auto'});
   refreshNext();
-  if(i===3) paintBottega();
-  if(i===6) paintFinale();
+  if(i===2) paintBottega();
+  if(i===5) paintFinale();
 }
 
 /* Il pulsante avanti cambia etichetta e disponibilita' secondo la schermata. */
@@ -1043,17 +821,14 @@ function refreshNext(){
   var b=$('btnNext'),t=$('nextTxt'),ok=true,lab='Avanti';
   switch(S.scr){
     case 0: lab='Comincia'; break;
-    case 1: lab='Ho visto il video'; ok=!!S.done.v1; break;
-    case 2: lab=S.guessDone?'Avanti':'Prima scegli un numero'; ok=S.guessDone; break;
-    case 3:
-      lab='Vai all\'Atto III';
-      ok=(S.round>=S.ordine.length);
-      if(!ok) lab='Completa i cinque oggetti';
+    case 1: lab='Avanti'; break;
+    case 2:
+      if(!S.botOpened){ lab='Entra nella bottega'; ok=false; }
+      else { lab='Vai all\'Atto III'; ok=true; }
       break;
-    case 4: lab='Ho visto il video'; ok=!!S.done.v2; break;
-    case 5: lab='Tira le somme'; ok=!!S.done.v3; break;
-    case 6: lab='Per riderci su'; break;
-    case 7: lab='Fine'; ok=false; break;
+    case 3: lab='Avanti'; break;
+    case 4: lab='Tira le somme'; break;
+    case 5: lab='Fine'; ok=false; break;
   }
   t.textContent=lab;
   b.disabled=!ok;
@@ -1071,40 +846,6 @@ document.addEventListener('click',function(e){
   var c=e.target.closest('[data-close]'); if(c){$(c.dataset.close).classList.remove('on');return;}
   var m=e.target.closest('.modal'); if(m&&e.target===m){m.classList.remove('on');}
 });
-$('lbX').addEventListener('click',function(){$('lb').classList.remove('on');});
-$('lb').addEventListener('click',function(e){if(e.target===this)this.classList.remove('on');});
-
-/* ================= ATTO I · video + tappe ================= */
-function buildTappe(){
-  var w=$('tappe'),h='',i;
-  for(i=0;i<TAPPE.length;i++){
-    h+='<button class="tap" data-t="'+i+'" aria-label="Tappa '+(i+1)+'">'
-      +'<span class="tap-n">'+(i+1)+'</span>'
-      +'<span class="thumb"><img src="'+TAPPE[i].f+'" alt="" loading="lazy" />'
-      +'<span class="lock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="9.5" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></span></span>'
-      +'<span class="cap">'+esc(TAPPE[i].tit)+'</span></button>';
-  }
-  w.innerHTML=h;
-  w.addEventListener('click',function(e){
-    var b=e.target.closest('.tap'); if(!b||!b.classList.contains('open'))return;
-    var t=TAPPE[+b.dataset.t];
-    $('lbImg').src=t.f; $('lbImg').alt=t.tit;
-    $('lbCap').innerHTML='<b>'+esc(t.tit)+'</b><br />'+esc(t.cap);
-    $('lb').classList.add('on');
-  });
-}
-/* I tempi sono ricavati dai fotogrammi reali del video, non da una stima proporzionale. */
-function syncTappe(now){
-  var n=$('tappe').children,i,open=0;
-  for(i=0;i<TAPPE.length;i++){
-    var was=n[i].classList.contains('open');
-    var is=now>=TAPPE[i].t-0.15;
-    if(is){open++;}
-    if(is&&!was){n[i].classList.add('open','just');(function(el){setTimeout(function(){el.classList.remove('just');},600);})(n[i]);}
-    else if(!is&&was){n[i].classList.remove('open');}
-  }
-  return open;
-}
 
 /* ---- player YouTube senza distrattori ----------------------------------------
    L'embed nudo lascerebbe titolo cliccabile, avatar del canale, "Guarda su YouTube",
@@ -1245,231 +986,113 @@ function mkYT(host,vid,opts){
   return api;
 }
 
-/* Aggancia un video del percorso: sblocca l'avanzamento quando e' stato visto. */
-function wireVideo(hostId,vid,flag,onDone){
-  var host=$(hostId),seen=false;
-  function done(){
-    if(seen)return;seen=true;
-    S.done[flag]=true;save();refreshNext();
-    if(onDone)onDone();
+/* I video sono per adulti: nessun gate, nessun anti-skip. Si guardano e basta. */
+function wireVideo(hostId,vid){ mkYT($(hostId),vid,{}); }
+
+/* ================= SELETTORE ORDINE DI SCUOLA ================= */
+(function(){
+  var w=$('scuolaPick');
+  function paint(){
+    var n=w.children,i;
+    for(i=0;i<n.length;i++) n[i].classList.toggle('on',!!S.scuola&&n[i].dataset.sc===S.scuola);
   }
-  mkYT(host,vid,{
-    onTime:function(t,d){
-      if(flag==='v1') syncTappe(t);
-      if(d&&t>=d*0.94) done();
-    },
-    onEnd:done
+  w.addEventListener('click',function(e){
+    var b=e.target.closest('[data-sc]'); if(!b)return;
+    S.scuola=b.dataset.sc; save(); paint();
   });
-  if(S.done[flag]){ if(onDone)onDone(); }
-}
+  paint();
+})();
 
-/* ================= LA SCOMMESSA ================= */
-var g=$('guess');
-g.value=S.guess;$('guessN').textContent=S.guess;
-g.addEventListener('input',function(){
-  S.guess=+g.value;$('guessN').textContent=S.guess;
-  S.guessDone=true;save();refreshNext();
-});
-
-/* ================= LA BOTTEGA ================= */
-var tick=null,left=DUR,running=false,shownV=0,endAt=0;
+/* ================= LA BOTTEGA (scrittura libera + scaffolding) =================
+   Niente cronometro: per gli adulti servono appigli e tempo, non pressione.
+   Un box di testo libero per oggetto; gli spunti rompono il ghiaccio. */
 
 function paintBottega(){
-  var fin=S.round>=S.ordine.length;
-  var intro=(S.round===0&&!S.started);
-  $('botIntro').style.display=intro?'block':'none';
-  $('botRun').style.display=intro?'none':'block';
-  if(fin){
-    $('botRun').style.display='none';
-    $('botIntro').style.display='block';
-    $('botIntro').innerHTML='<div class="eyebrow">Atto II</div><h1>Bottega chiusa</h1>'
-      +'<p class="lead">Cinque oggetti, cinque scelte. Le ritrovi tutte alla fine, insieme al confronto con la tua scommessa.</p>'
-      +'<div class="card flat"><p class="small" style="margin:0">Hai raccolto <b>'+totIdee()+'</b> idee in totale e ne hai portata via <b>una</b> per oggetto. Il resto resta scritto: le idee scartate sono la prova che ce n\'erano altre.</p></div>';
-    refreshNext();return;
-  }
-  if(intro){refreshNext();return;}
-  paintRound();
-}
-
-function totIdee(){
-  var n=0,k;
-  for(k in S.idee){ if(S.idee.hasOwnProperty(k)) n+=S.idee[k].length; }
-  return n;
+  $('botIntro').style.display=S.botOpened?'none':'block';
+  $('botRun').style.display=S.botOpened?'block':'none';
+  if(S.botOpened) paintOggetto();
+  refreshNext();
 }
 
 function paintDots(){
   var h='',i;
-  for(i=0;i<S.ordine.length;i++) h+='<div class="dot'+(i<S.round?' done':(i===S.round?' now':''))+'"></div>';
+  for(i=0;i<S.ordine.length;i++){
+    var pieno=(S.testi[S.ordine[i]]||'').trim().length>0;
+    h+='<button class="dot'+(pieno?' filled':'')+(i===S.round?' now':'')+'" data-d="'+i+'" aria-label="Oggetto '+(i+1)+'"></button>';
+  }
   $('botDots').innerHTML=h;
 }
 
-function paintRound(){
+function paintOggetto(){
   var id=S.ordine[S.round],o=oggettoById(id);
   paintDots();
-  $('objIco').innerHTML='<svg viewBox="0 0 64 64" role="img" aria-label="'+esc(o.nome)+'">'+ICONE[id]+'</svg>';
+  $('objIllu').innerHTML='<svg viewBox="0 0 120 120" role="img" aria-label="'+esc(o.nome)+'">'+ILLU[id]+'</svg>';
   $('objName').textContent=o.nome;
   $('objArea').textContent=o.area;
   $('objN').textContent=String(S.round+1);
   $('objTot').textContent=String(S.ordine.length);
-  $('phaseGen').style.display='block';
-  $('phasePick').style.display='none';
-  $('vincoli').innerHTML='';
-  $('leve').textContent=LEVE.join(' · ');
-  $('stuckHint').style.display='none';
-  $('startWrap').style.display='block';
-  $('ideaIn').disabled=true;$('ideaAdd').disabled=true;$('ideaIn').value='';
-  shownV=0;left=DUR;
-  setRing(1,DUR,false);
-  $('timerTxt').innerHTML='In quanti modi diversi si può usare? Scrivi e invia, una per volta.';
-  renderIdee();
+  $('objBox').value=S.testi[id]||'';
+  renderChips();
+  $('objPrev').disabled=(S.round===0);
+  var last=(S.round===S.ordine.length-1);
+  $('objNext2').disabled=last;
+  $('objNext2Txt').textContent=last?'Ultimo oggetto':'Prossimo';
   refreshNext();
 }
 
-function setRing(p,txt,warn){
-  var r=$('ring');
-  r.style.setProperty('--p',p);
-  r.classList.toggle('warn',!!warn);
-  $('ringT').textContent=txt;
+function renderChips(){
+  var h='',i;
+  for(i=0;i<SPUNTI.length;i++) h+='<button class="chip" data-sp="'+i+'">'+esc(SPUNTI[i])+'</button>';
+  $('objChips').innerHTML=h;
 }
 
-/* il pulsante vive dentro botIntro, che viene riscritto: serve la delega */
+/* Uno spunto entra nel box come innesco da completare, su una riga nuova. */
+$('objChips').addEventListener('click',function(e){
+  var b=e.target.closest('[data-sp]'); if(!b)return;
+  var box=$('objBox'),cur=box.value,pre=(cur&&!/\n$/.test(cur))?cur+'\n':cur;
+  box.value=pre+SPUNTI[+b.dataset.sp]+' → ';
+  S.testi[S.ordine[S.round]]=box.value;save();
+  b.classList.add('used');
+  box.focus();
+  box.setSelectionRange(box.value.length,box.value.length);
+});
+
+$('objBox').addEventListener('input',function(){
+  S.testi[S.ordine[S.round]]=$('objBox').value;save();
+});
+
+function inviaOggetto(idx){
+  if(idx<0||idx>=S.ordine.length)return;
+  var id=S.ordine[idx],o=oggettoById(id),txt=(S.testi[id]||'').trim();
+  if(!txt)return;
+  invia({
+    k:S.sid+'|'+S.seed+'|'+id, tipo:'oggetto', sid:S.sid, seed:S.seed,
+    scuola:S.scuola||'', oggetto:o.nome, testo:txt.slice(0,1800)
+  });
+}
+
+/* il pulsante "Entra" vive dentro botIntro: delega */
 document.addEventListener('click',function(e){
   if(!e.target.closest('#botGo'))return;
-  S.started=true;save();
+  S.botOpened=true;S.round=0;save();
   $('botIntro').style.display='none';
   $('botRun').style.display='block';
-  paintRound();
+  paintOggetto();
   window.scrollTo({top:0,behavior:'smooth'});
 });
 
-$('startRound').addEventListener('click',function(){
-  if(running)return;
-  running=true;left=DUR;shownV=0;
-  S.started=true;save();
-  $('startWrap').style.display='none';
-  $('ideaIn').disabled=false;$('ideaAdd').disabled=false;
-  $('ideaIn').focus();
-  $('timerTxt').innerHTML='Quantità prima di qualità. <span class="count" id="cnt">0 idee</span>';
-  /* il conto va ancorato all'orologio: su smartphone setInterval viene rallentato
-     quando l'app passa in secondo piano e i novanta secondi non sarebbero piu' tali */
-  endAt=Date.now()+DUR*1000;
-  tick=setInterval(step,250);
-  step();
-});
-
-function step(){
-  var prev=left;
-  left=Math.max(0,Math.ceil((endAt-Date.now())/1000));
-  if(left===prev&&left>0) return;
-  setRing(left/DUR,left,left<=30);
-  var c=$('cnt'); if(c) c.textContent=ideeDi(S.ordine[S.round]).length+' idee';
-  if(left<=45&&$('stuckHint')) $('stuckHint').style.display='block';
-  while(shownV<V1.length&&left<=V1[shownV]){ mostraVincolo(shownV); shownV++; }
-  if(left<=0) stopRound();
+function vaiOggetto(nuovo){
+  if(nuovo<0||nuovo>=S.ordine.length)return;
+  inviaOggetto(S.round);
+  S.round=nuovo;save();
+  paintOggetto();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function mostraVincolo(i){
-  var id=S.ordine[S.round],v=S.vincoli[id][i];
-  var d=document.createElement('div');
-  d.className='vincolo';
-  d.innerHTML='<div class="v-t"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3.5L5.5 13.5H11l-1 7 7.5-10H12z"/></svg><span>Vincolo '+(i+1)+'</span></div>'
-    +'<div class="v-x">'+esc(v)+'</div>';
-  $('vincoli').appendChild(d);
-  try{ if(navigator.vibrate) navigator.vibrate(18); }catch(e){}
-}
-
-function addIdea(){
-  if(!running)return;
-  var inp=$('ideaIn'),t=inp.value.trim();
-  if(t.length<3){inp.focus();return;}
-  var id=S.ordine[S.round];
-  if(!S.idee[id])S.idee[id]=[];
-  var i,low=t.toLowerCase();
-  for(i=0;i<S.idee[id].length;i++){
-    if(S.idee[id][i].t.toLowerCase()===low){toast('L\'hai già scritta.');inp.select();return;}
-  }
-  S.idee[id].push({t:t,v:shownV,o:false});
-  inp.value='';inp.focus();
-  save();renderIdee();
-  var c=$('cnt'); if(c) c.textContent=S.idee[id].length+' idee';
-}
-$('ideaAdd').addEventListener('click',addIdea);
-$('ideaIn').addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();addIdea();} });
-
-function renderIdee(){
-  var id=S.ordine[S.round],a=ideeDi(id),h='',i;
-  /* anima solo l'ultima arrivata: rianimare tutta la lista la fa lampeggiare */
-  for(i=a.length-1;i>=0;i--){
-    h+='<li class="idea'+(a[i].v>0?' aftv':'')+(i===a.length-1?' fresh':'')+'"><span class="ix">'+(i+1)+'</span><span class="itx">'+esc(a[i].t)+'</span></li>';
-  }
-  $('ideaList').innerHTML=h;
-}
-
-function stopRound(){
-  /* un'idea gia' scritta nel campo allo scadere e' stata pensata dentro il tempo: si tiene */
-  if($('ideaIn').value.trim().length>=3) addIdea();
-  clearInterval(tick);tick=null;running=false;
-  $('ideaIn').disabled=true;$('ideaAdd').disabled=true;
-  var id=S.ordine[S.round],a=ideeDi(id),dopo=0,i;
-  for(i=0;i<a.length;i++){ if(a[i].v>0)dopo++; }
-  $('phaseGen').style.display='none';
-  $('phasePick').style.display='block';
-  var lead;
-  if(a.length===0){
-    lead='Nessuna idea scritta. Capita: il foglio bianco è un dato, non una colpa. Passa oltre e riprova con il prossimo oggetto.';
-  }else{
-    lead='<b>'+a.length+'</b> idee, di cui <b>'+dopo+'</b> nate dopo il primo vincolo.';
-  }
-  $('pickLead').innerHTML=lead;
-  renderPick();
-  $('confirmPick').disabled=(a.length>0&&typeof S.scelte[id]!=='number');
-  if(a.length===0){$('confirmPick').disabled=false;$('confirmPick').textContent='Passo al prossimo oggetto';}
-  else $('confirmPick').textContent='Confermo la scelta';
-  save();
-}
-
-function renderPick(){
-  var id=S.ordine[S.round],a=ideeDi(id),h='',i;
-  for(i=0;i<a.length;i++){
-    h+='<li class="idea'+(a[i].o?' orig':'')+(S.scelte[id]===i?' pick':'')+'" data-i="'+i+'">'
-      +'<button class="star" data-act="orig" aria-label="Segna come idea originale">'
-      +'<svg viewBox="0 0 24 24" fill="'+(a[i].o?'currentColor':'none')+'" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3.6l2.5 5.1 5.6.8-4 4 .9 5.6L12 16.4 7 19.1l.9-5.6-4-4 5.6-.8z"/></svg></button>'
-      +'<span class="itx">'+esc(a[i].t)+'</span>'
-      +'<button class="sel" data-act="pick" aria-label="Porta questa idea in classe">'
-      +'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></li>';
-  }
-  $('pickList').innerHTML=h;
-}
-
-$('pickList').addEventListener('click',function(e){
-  var b=e.target.closest('button[data-act]'); if(!b)return;
-  var li=b.closest('.idea'),i=+li.dataset.i,id=S.ordine[S.round];
-  if(b.dataset.act==='orig'){ S.idee[id][i].o=!S.idee[id][i].o; }
-  else { S.scelte[id]=i; }
-  save();
-  /* aggiornamento in loco: ricostruire la lista a ogni tocco farebbe perdere il nodo toccato */
-  var n=$('pickList').children,k;
-  for(k=0;k<n.length;k++){
-    n[k].classList.toggle('orig',!!S.idee[id][k].o);
-    n[k].classList.toggle('pick',S.scelte[id]===k);
-    n[k].querySelector('.star svg').setAttribute('fill',S.idee[id][k].o?'currentColor':'none');
-  }
-  $('confirmPick').disabled=(typeof S.scelte[id]!=='number');
-});
-
-$('confirmPick').addEventListener('click',function(){
-  S.round++;save();
-  if(S.round>=S.ordine.length){ paintBottega(); }
-  else { paintRound(); window.scrollTo({top:0,behavior:'smooth'}); }
-  refreshNext();
-});
-
-/* l'infografica si apre nella stessa lightbox delle tappe */
-$('apolloBtn').addEventListener('click',function(){
-  $('lbImg').src='apollo13-web.jpg';
-  $('lbImg').alt='Infografica sulla soluzione del filtro dell\'anidride carbonica';
-  $('lbCap').innerHTML='<b>Apollo 13: risolvere l\'impossibile</b><br />Cartucce quadrate, alloggiamenti rotondi. A disposizione: nastro telato, copertine dei manuali, sacchetti, tubi delle tute. Il vincolo non era negoziabile — le idee sì.';
-  $('lb').classList.add('on');
+$('objPrev').addEventListener('click',function(){ vaiOggetto(S.round-1); });
+$('objNext2').addEventListener('click',function(){ vaiOggetto(S.round+1); });
+$('botDots').addEventListener('click',function(e){
+  var b=e.target.closest('[data-d]'); if(!b)return;
+  vaiOggetto(+b.dataset.d);
 });
 
 /* ================= esempi di vincolo (Atto III) ================= */
@@ -1493,90 +1116,57 @@ $('apolloBtn').addEventListener('click',function(){
 });
 
 /* ================= CHIUSURA ================= */
-function stats(){
-  var tot=0,dopo=0,orig=0,k,i,a;
-  for(k in S.idee){
-    if(!S.idee.hasOwnProperty(k))continue;
-    a=S.idee[k];tot+=a.length;
-    for(i=0;i<a.length;i++){ if(a[i].v>0)dopo++; if(a[i].o)orig++; }
-  }
-  return {tot:tot,dopo:dopo,orig:orig,media:S.ordine.length?tot/S.ordine.length:0};
-}
-
-/* in italiano il separatore decimale e' la virgola */
-function num1(x){return (Math.round(x*10)/10).toFixed(1).replace('.',',');}
-
+var inviatoFine=false;
 function paintFinale(){
-  var st=stats(),media=num1(st.media);
-  $('scFlu').textContent=st.tot;
-  $('scDopo').textContent=st.dopo;
-  $('scOrig').textContent=st.orig;
+  inviaOggetto(S.round);           /* salva l'ultimo oggetto se si arriva qui di slancio */
+  var scritti=0,i,id;
+  for(i=0;i<S.ordine.length;i++){ if((S.testi[S.ordine[i]]||'').trim()) scritti++; }
 
-  var d=st.media-S.guess, big, sub;
-  if(st.tot===0){
-    big='Non hai scritto nulla.';
-    sub='Va bene: succede quando il tempo è vero e il foglio è bianco. Torna quando hai novanta secondi davvero liberi — sono la parte più economica di tutta questa storia.';
-  }else if(d>=1.5){
-    big='Avevi previsto '+S.guess+'. La tua media è '+media+'.';
-    sub='Ne hai prodotte più di quante te ne concedessi. Il limite che ti eri dato non era una misura: era un\'abitudine. Vale la pena ricordarlo la prossima volta che uno studente dice "non mi viene niente".';
-  }else if(d<=-1.5){
-    big='Avevi previsto '+S.guess+'. La tua media è '+media+'.';
-    sub='Sotto la tua stessa stima. Non è un brutto voto: novanta secondi sono pochi e la macchina era ferma da un po\'. Il dato utile è un altro — guarda quante idee sono arrivate dopo il vincolo.';
-  }else{
-    big='Avevi previsto '+S.guess+'. La tua media è '+media+'.';
-    sub='Ti conosci bene. Ora la domanda cambia: non quante idee sai produrre, ma quante ne concedi, di solito, a chi hai davanti.';
+  if(!inviatoFine&&scritti>0){
+    inviatoFine=true;
+    invia({ k:S.sid+'|'+S.seed+'|fine', tipo:'fine', sid:S.sid, seed:S.seed,
+            scuola:S.scuola||'', oggetti:scritti });
   }
-  $('verdictBig').textContent=big;
-  $('verdictSub').textContent=sub;
 
-  var pDopo=st.tot?Math.round(st.dopo*100/st.tot):0;
-  $('scNote').innerHTML=st.tot
-    ? 'Il <b>'+pDopo+'%</b> delle tue idee è arrivato dopo un vincolo. È la parte che non avresti scritto se ti fossi fermato al primo silenzio.'
-    : 'Nessun dato da leggere: la bottega è rimasta chiusa.';
+  if(scritti===0){
+    $('verdictBig').textContent='La bottega è rimasta vuota.';
+    $('verdictSub').textContent='Nessun problema: gli oggetti restano qui. Torna quando hai qualche minuto e la voglia di reinventarli.';
+  }else{
+    $('verdictBig').textContent='Hai reinventato '+scritti+(scritti===1?' oggetto su cinque.':' oggetti su cinque.');
+    $('verdictSub').textContent='Ogni riga che hai scritto è una porta che, in classe, di solito teniamo chiusa. La domanda vera non è quante idee sai produrre: è quante ne concedi a chi hai davanti.';
+  }
 
-  var h='',i,id,o,a,idx;
+  var h='',o,txt;
   for(i=0;i<S.ordine.length;i++){
-    id=S.ordine[i];o=oggettoById(id);a=ideeDi(id);idx=S.scelte[id];
-    var testo=(typeof idx==='number'&&a[idx])?a[idx].t:'— nessuna scelta —';
-    h+='<li class="res"><div class="ri"><svg viewBox="0 0 64 64">'+ICONE[id]+'</svg></div>'
-      +'<div class="rt"><em>'+esc(o.nome)+'</em>'+esc(testo)+'</div></li>';
+    id=S.ordine[i];o=oggettoById(id);txt=(S.testi[id]||'').trim();
+    h+='<div class="res"><div class="ri"><svg viewBox="0 0 120 120">'+ILLU[id]+'</svg></div>'
+      +'<div class="rt"><em>'+esc(o.nome)+'</em>'+(txt?esc(txt).replace(/\n/g,'<br />'):'<span class="muted">— non compilato —</span>')+'</div></div>';
   }
   $('chosen').innerHTML=h;
   $('seedline2').textContent='partita '+S.seed;
 }
 
 function taccuino(){
-  var st=stats(),L=[],i,id,o,a,idx;
+  var L=[],i,id,o,txt;
   L.push('COLTIVIAMO PENSIERI CREATIVI — il mio taccuino');
-  L.push('Scuola Sacra Famiglia · Orzinuovi — sfondo integratore 2026/2027');
+  L.push('Scuola Sacra Famiglia · Martinengo e Orzinuovi — sfondo integratore 2026/2027');
   L.push('partita: '+S.seed);
   L.push('');
-  L.push('LA SCOMMESSA E IL RISULTATO');
-  L.push('Previste: '+S.guess+' idee in 90 secondi.');
-  L.push('Prodotte: '+st.tot+' idee su '+S.ordine.length+' oggetti (media '+num1(st.media)+').');
-  L.push('Nate dopo un vincolo: '+st.dopo+'. Segnate come solo mie: '+st.orig+'.');
-  L.push('');
-  L.push('LE CINQUE CONSEGNE DA PORTARE IN CLASSE');
+  L.push('I MIEI CINQUE OGGETTI');
   for(i=0;i<S.ordine.length;i++){
-    id=S.ordine[i];o=oggettoById(id);a=ideeDi(id);idx=S.scelte[id];
-    L.push((i+1)+'. '+o.nome+' — '+((typeof idx==='number'&&a[idx])?a[idx].t:'(nessuna scelta)'));
+    id=S.ordine[i];o=oggettoById(id);txt=(S.testi[id]||'').trim();
+    L.push('');
+    L.push((i+1)+'. '+o.nome.toUpperCase()+'  ('+o.area+')');
+    L.push(txt?txt:'   (non compilato)');
   }
   L.push('');
-  L.push('TUTTE LE IDEE');
-  for(i=0;i<S.ordine.length;i++){
-    id=S.ordine[i];o=oggettoById(id);a=ideeDi(id);
-    L.push('· '+o.nome+' ['+S.vincoli[id][0]+' / '+S.vincoli[id][1]+']');
-    if(!a.length) L.push('   (nessuna)');
-    for(var j=0;j<a.length;j++) L.push('   - '+a[j].t+(a[j].v>0?' [dopo il vincolo]':'')+(a[j].o?' [solo mia]':''));
-  }
-  L.push('');
-  L.push('LA CONSEGNA CON IL VINCOLO DENTRO');
+  L.push('LA CONSEGNA CON IL VINCOLO DENTRO (Atto III)');
   L.push(S.fVincolo||'(da scrivere)');
   L.push('');
   L.push('CHE COSA MI PORTO VIA');
-  L.push('Ho capito: '+(S.m1||'(da scrivere)'));
-  L.push('Ci sono arrivato: '+(S.m2||'(da scrivere)'));
-  L.push('Cambierei: '+(S.m3||'(da scrivere)'));
+  L.push('Oggetto più difficile: '+(S.m1||'(da scrivere)'));
+  L.push('Che cosa ha sbloccato le idee: '+(S.m2||'(da scrivere)'));
+  L.push('Quante risposte accetto di solito: '+(S.m3||'(da scrivere)'));
   L.push('');
   L.push('IL PATTO');
   L.push('Classe: '+(S.pClasse||'—')+' · Quando: '+(S.pQuando||'—'));
@@ -1599,29 +1189,24 @@ $('copyAll').addEventListener('click',function(){
 });
 
 $('again').addEventListener('click',function(){
-  var forced=params.get('seed'),keep=S.done,kg=S.guess;
+  var forced=params.get('seed');
   S=freshState(forced?forced+'-b'+Date.now().toString(36):(sid()+'-'+nextRun()));
-  S.done=keep;                    /* i video restano visti: si ricomincia dalla bottega */
-  S.guess=kg;S.guessDone=true;
+  inviatoFine=false;
   save();
   ['fVincolo','m1','m2','m3','pClasse','pQuando','pAzione'].forEach(function(k){var el=$(k);if(el)el.value='';});
-  $('guess').value=S.guess;$('guessN').textContent=S.guess;
   $('botIntro').innerHTML=BOT_INTRO_HTML;
-  show(3);
-  toast('Nuovi vincoli, nuovo ordine.');
+  show(2);
+  toast('Nuovi oggetti, nuovo ordine.');
 });
 
 /* ================= avvio ================= */
 if(!S.ordine||S.ordine.length!==OGGETTI.length) S=freshState(S.seed);
 var BOT_INTRO_HTML=$('botIntro').innerHTML;
 buildSteps();
-buildTappe();
 $('seedline').textContent='partita '+S.seed;
-wireVideo('p1',VID.v1,'v1',function(){ $('revealA1').style.display='block'; syncTappe(1e9); });
-wireVideo('p2',VID.v2,'v2',function(){ $('revealA3').style.display='block'; });
-wireVideo('p3',VID.v3,'v3',function(){ $('revealA4').style.display='block'; });
-/* i video della coda non hanno gate: si guardano se e quando si vuole */
-[].forEach.call(document.querySelectorAll('.player[data-yt]'),function(el){ mkYT(el,el.dataset.yt,{}); });
+wireVideo('p1',VID.v1);
+wireVideo('p2',VID.v2);
+wireVideo('p3',VID.v3);
 show(S.scr||0);
 
 })();
