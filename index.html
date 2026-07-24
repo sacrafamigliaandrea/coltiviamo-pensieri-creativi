@@ -59,7 +59,11 @@ input,textarea{font-family:var(--body);font-size:18px}
 }
 .brand{display:inline-flex;align-items:center;gap:10px}
 .brand-txt{display:flex;flex-direction:column;text-align:center;line-height:1.2}
-.brand-name{font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:.7px;color:#fff;text-transform:uppercase}
+/* wordmark come logo2.JPG: sacra (regular) famiglia (bold) .education (bold italic) */
+.brand-name{font-family:var(--head);font-size:20px;letter-spacing:-.4px;color:#fff;text-transform:none;line-height:1}
+.brand-name .wm-r{font-weight:400}
+.brand-name .wm-b{font-weight:700}
+.brand-name .wm-i{font-weight:700;font-style:italic}
 .brand-role{font-family:var(--head);font-size:11.5px;font-weight:500;color:rgba(255,255,255,.82)}
 
 /* ---------- barra di avanzamento ---------- */
@@ -357,7 +361,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 <div class="brandbar">
   <div class="brand">
     <div class="brand-txt">
-      <span class="brand-name">Scuola Sacra Famiglia</span>
+      <span class="brand-name"><span class="wm-r">sacra</span><span class="wm-b">famiglia</span><span class="wm-i">.education</span></span>
       <span class="brand-role">Scuole di Martinengo e Orzinuovi</span>
     </div>
   </div>
