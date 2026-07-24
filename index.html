@@ -5,7 +5,7 @@
 <title>Coltiviamo pensieri creativi · Scuola Sacra Famiglia</title>
 <link rel="icon" href="logo.svg" />
 <link rel="apple-touch-icon" href="logo.png" />
-<meta name="theme-color" content="#123E90" />
+<meta name="theme-color" content="#E4002B" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="description" content="Allenamento al pensiero divergente per i docenti. Sfondo integratore 2026/2027." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -15,17 +15,22 @@
 <style>
 /* ============================================================
    COLTIVIAMO PENSIERI CREATIVI — app per lo smartphone del docente
-   Palette: blu istituzionale Scuola Sacra Famiglia + oro (avanzamento/merito).
+   Palette: identita' "sacrafamiglia.education" — ROSSO brand + bianco, dettagli in
+   antracite. I nomi delle variabili restano quelli storici (--blu = colore primario,
+   --gold = accento) per ri-tematizzare da soli tutti gli SVG inline: cambiano solo i
+   VALORI. Il rosso e' colore d'identita', MAI feedback d'errore (quello resta ambra).
    Zero emoji: ogni segno grafico e' SVG inline.
    ============================================================ */
 :root{
-  --blu:#123E90; --blu2:#1f5fc0; --bluD:#0B2A63; --bluL:rgba(18,62,144,.07);
-  --gold:#B8860B; --gold2:#D4A017; --goldL:rgba(184,134,11,.10);
-  --card:#FFFFFF; --cream:#F4F7FC; --warm:#E8EFFA;
-  --text:#152238; --muted:#4A5A75; --light:#8A9BB5;
-  --brd:#D6E1F2; --brd2:#B4C7E5;
-  --shadow:0 2px 14px rgba(18,62,144,.08);
-  --shadow2:0 10px 30px rgba(11,42,99,.16);
+  /* --blu* = ROSSO brand (primario) */
+  --blu:#ED0006; --blu2:#FF3A2E; --bluD:#BC0011; --bluL:rgba(237,0,6,.07);
+  /* --gold* = ANTRACITE caldo (dettagli SVG, secondario) */
+  --gold:#33272A; --gold2:#5A464B; --goldL:rgba(51,39,42,.09);
+  --card:#FFFFFF; --cream:#FBF6F6; --warm:#F5E9EA;
+  --text:#241A1C; --muted:#6E585B; --light:#AE9598;
+  --brd:#EDD9DB; --brd2:#E0C2C4;
+  --shadow:0 2px 14px rgba(237,0,6,.08);
+  --shadow2:0 10px 30px rgba(188,0,17,.16);
   --head:'Lexend',sans-serif;
   --body:'Atkinson Hyperlegible',Helvetica,Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -43,17 +48,18 @@ h1,h2,h3,.h{font-family:var(--head);font-weight:600;line-height:1.24;margin:0}
 p{margin:0 0 14px}
 button{font-family:var(--body);font-size:18px;cursor:pointer;border:0;background:none;color:inherit}
 input,textarea{font-family:var(--body);font-size:18px}
-:focus-visible{outline:3px solid var(--gold2);outline-offset:2px;border-radius:6px}
+:focus-visible{outline:3px solid var(--blu);outline-offset:2px;border-radius:6px}
 
 /* ---------- intestazione ---------- */
+/* header a fascia rossa piena, testo bianco — identita' sacrafamiglia.education */
 .brandbar{
-  display:flex;justify-content:center;padding:12px 16px 6px;
-  background:var(--card);border-bottom:1px solid var(--brd);
+  display:flex;justify-content:center;padding:11px 16px 10px;
+  background:var(--blu);border-bottom:1px solid var(--bluD);
 }
 .brand{display:inline-flex;align-items:center;gap:10px}
-.brand-txt{display:flex;flex-direction:column;text-align:left;line-height:1.2}
-.brand-name{font-family:var(--head);font-size:12.5px;font-weight:700;letter-spacing:.7px;color:var(--blu);text-transform:uppercase}
-.brand-role{font-family:var(--head);font-size:11px;font-weight:500;color:var(--muted)}
+.brand-txt{display:flex;flex-direction:column;text-align:center;line-height:1.2}
+.brand-name{font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:.7px;color:#fff;text-transform:uppercase}
+.brand-role{font-family:var(--head);font-size:11.5px;font-weight:500;color:rgba(255,255,255,.82)}
 
 /* ---------- barra di avanzamento ---------- */
 /* Barra unica: progresso + navigazione, sticky in alto. Niente barra in fondo. */
@@ -74,7 +80,7 @@ input,textarea{font-family:var(--body);font-size:18px}
   min-height:52px;border-radius:13px;font-family:var(--head);font-weight:600;font-size:16px}
 .tn-btn svg{width:21px;height:21px;flex:0 0 auto}
 .tn-back{width:52px;color:var(--blu);background:var(--card);border:1.5px solid var(--brd2)}
-.tn-next{padding:0 15px 0 17px;color:#fff;background:var(--gold);border:1px solid var(--gold)}
+.tn-next{padding:0 15px 0 17px;color:#fff;background:var(--blu);border:1px solid var(--blu)}
 .tn-btn[disabled]{opacity:.4;pointer-events:none}
 .tn-back[disabled]{opacity:.28}
 .tn-next[disabled]{background:var(--warm);color:var(--muted);border-color:var(--brd2)}
@@ -86,8 +92,9 @@ main{max-width:var(--maxw);margin:0 auto;padding:18px 16px 8px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
 .eyebrow{
-  font-family:var(--head);font-size:12.5px;font-weight:600;letter-spacing:1.3px;
-  text-transform:uppercase;color:var(--gold);margin-bottom:8px
+  display:inline-block;font-family:var(--head);font-size:11.5px;font-weight:600;
+  letter-spacing:1.1px;text-transform:uppercase;color:#fff;background:var(--blu);
+  padding:4px 11px;border-radius:6px;margin-bottom:12px
 }
 h1{font-size:31px;letter-spacing:-.4px;margin-bottom:12px}
 h2{font-size:24px;letter-spacing:-.2px;margin-bottom:10px}
@@ -103,8 +110,14 @@ h3{font-size:18.5px;margin-bottom:8px}
 }
 .card.dark{background:var(--bluD);border-color:var(--bluD);color:#fff}
 .card.dark h2,.card.dark h3{color:#fff}
-.card.dark .muted{color:#B9CBEA}
+.card.dark .muted{color:rgba(255,255,255,.74)}
 .card.flat{box-shadow:none;background:var(--warm);border-color:var(--brd)}
+/* l'anello aperto: segno visivo del filo che resta sospeso fino a giugno */
+.loop-card{position:relative;padding-top:18px}
+.loop-ring{width:38px;height:38px;display:block;margin:0 0 12px;opacity:.95}
+.loop-close{display:flex;align-items:center;gap:13px;margin:14px 0 2px}
+.loop-close .loop-ring{margin:0;flex:0 0 auto;width:44px;height:44px}
+.loop-close span{font-family:var(--head);font-size:15px;font-weight:600;color:var(--blu)}
 
 .fact{
   background:var(--goldL);border:1px solid rgba(184,134,11,.32);
@@ -137,7 +150,7 @@ h3{font-size:18.5px;margin-bottom:8px}
   transition:transform .12s ease,opacity .18s ease
 }
 .btn:active{transform:scale(.985)}
-.btn.gold{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn.gold{background:var(--blu);border-color:var(--blu);color:#fff}
 .btn.ghost{background:transparent;color:var(--blu);border:1.5px solid var(--brd2)}
 .btn[disabled]{opacity:.42;pointer-events:none}
 .btn svg{width:19px;height:19px;flex:0 0 auto}
@@ -161,11 +174,6 @@ h3{font-size:18.5px;margin-bottom:8px}
    il verticale domina lo schermo restando centrato. */
 .player{aspect-ratio:16/9;margin-left:-16px;margin-right:-16px;border-radius:0}
 .player.vert{aspect-ratio:9/16;height:min(76vh,660px);width:auto;max-width:100%;margin:4px auto 12px;border-radius:16px}
-/* "big": i 16:9 su schermo verticale hanno un tetto (larghezza = schermo).
-   Per dargli piu' altezza li mostriamo in un riquadro 3:2 e li facciamo riempire,
-   ritagliando ~9% per lato: il soggetto centrale resta, l'area cresce di ~un quinto. */
-.player.big{aspect-ratio:3/2}
-.player.big iframe{width:118.6%;height:100%;left:50%;top:50%;transform:translate(-50%,-50%);inset:auto}
 .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none}
 .vp-poster{
   position:absolute;inset:0;background:#000 center/cover no-repeat;z-index:2;
@@ -361,23 +369,26 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 
 <main id="app">
 
-<!-- ============ 0 · COPERTINA ============ -->
+<!-- ============ 0 · COPERTINA (Zeigarnik: apre l'anello dell'anno) ============ -->
 <section class="scr on" data-i="0">
-  <div class="eyebrow">Sfondo integratore · 2026/2027</div>
+  <div class="eyebrow">Sfondo integratore · Primo filo</div>
   <h1>Coltiviamo pensieri creativi</h1>
-  <p class="lead">Quindici minuti, con il telefono in mano. Non per i ragazzi: per noi.</p>
 
-  <div class="card dark">
-    <p style="margin-bottom:10px">Una premessa e quattro momenti. In mezzo, <b>cinque oggetti comuni</b> e una domanda che di solito facciamo solo ai bambini.</p>
-    <p class="muted" style="margin:0">Alla fine ti resteranno cinque consegne pronte — e una domanda che riguarda te.</p>
+  <div class="card dark loop-card">
+    <svg class="loop-ring" viewBox="0 0 48 48" aria-hidden="true"><path d="M32 8.4A18 18 0 1 0 39 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></svg>
+    <p style="margin-bottom:8px">In ogni classe, ogni giorno, qualcuno decide quante risposte valgono a una domanda.</p>
+    <p style="margin-bottom:12px"><b>Quasi sempre: una.</b></p>
+    <p class="muted" style="margin:0">Quest'anno partiamo da qui, e teniamo la domanda aperta fino a giugno: <b style="color:#fff">chi lo decide?</b></p>
   </div>
 
-  <h3>Come funziona</h3>
+  <p>Non è un corso da spuntare: nessun voto, nessuno ti chiede di cambiare metodo. È il primo di alcuni momenti che riprenderemo durante l'anno. Oggi, quattro brevi tappe per guardare quella domanda da vicino.</p>
+
+  <h3>Quattro tappe</h3>
   <ul class="reslist" style="margin-bottom:6px">
-    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h16v13H4z"/><path d="M10 9.5l5 2.5-5 2.5z"/></svg></div><div class="rt"><em>Atto I</em>Un video di due minuti e mezzo.</div></li>
-    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M8.5 12.5l2.4 2.4 4.6-5"/></svg></div><div class="rt"><em>Atto II</em>Cinque oggetti da reinventare. Qui si lavora.</div></li>
-    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.4 5 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4L4.2 9.3l5.4-.8z"/></svg></div><div class="rt"><em>Atto III e IV</em>Due storie vere: una navicella, un conto in banca.</div></li>
-    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="rt"><em>Chiusura</em>Cinque consegne pronte per le tue classi.</div></li>
+    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5h16v13H4z"/><path d="M10 9.5l5 2.5-5 2.5z"/></svg></div><div class="rt"><em>Atto I</em>Una storia che conosci, che non finisce come pensi.</div></li>
+    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10M6 20v-5M18 20V6"/></svg></div><div class="rt"><em>Atto II</em>Un numero che ti riguarda, e che in pochi guardano davvero.</div></li>
+    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M8.5 12.5l2.4 2.4 4.6-5"/></svg></div><div class="rt"><em>Atto III</em>Cinque oggetti comuni. Qui la domanda diventa tua.</div></li>
+    <li class="res"><div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7v5.2l3.2 2"/></svg></div><div class="rt"><em>Atto IV e chiusura</em>Il tempo che credi di non avere — e un nodo da portare in classe domani.</div></li>
   </ul>
 
   <div class="center" style="margin-top:16px">
@@ -401,7 +412,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 
     <div class="fact">
       <div class="fact-t">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="1.9" stroke-linecap="round"><path d="M12 7.5v5.5"/><circle cx="12" cy="16.4" r=".7" fill="#B8860B"/><circle cx="12" cy="12" r="8.6"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.9" stroke-linecap="round"><path d="M12 7.5v5.5"/><circle cx="12" cy="16.4" r=".7" fill="var(--blu)"/><circle cx="12" cy="12" r="8.6"/></svg>
         <span>Per essere precisi</span>
       </div>
       <p class="small">Land e Jarman misuravano il <b>pensiero divergente</b>, non la creatività in assoluto: <b>98%</b> a 5 anni, <b>30%</b> a 10, <b>12%</b> a 15, <b>2%</b> da adulti.</p>
@@ -409,11 +420,11 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
       <p class="small" style="margin-bottom:0">Il problema non è avere il pensiero convergente: è <b>avere solo quello</b>.</p>
     </div>
 
-    <p>Guilford lo diceva già negli anni Cinquanta: sono due movimenti diversi. Uno apre, l'altro chiude. La scuola allena benissimo il secondo.</p>
+    <p>Guilford lo diceva già negli anni Cinquanta: sono due movimenti diversi. Uno apre, l'altro chiude. La scuola allena benissimo il secondo. E allora la domanda del filo torna, più concreta: <b>nella tua classe, chi decide quante risposte valgono?</b></p>
 
     <div class="task">
       <div class="task-t">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5L16 12l-6.5 6.5"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5L16 12l-6.5 6.5"/></svg>
         <span>Ora tocca a te</span>
       </div>
       <p class="small" style="margin-bottom:0">Il video finisce con un esercizio: prendi un oggetto comune e cerca tutti gli usi che riesci a immaginare. È l'<b>Alternative Uses Test</b> di Guilford, e comincia proprio da una graffetta. Facciamolo — nella bottega qui accanto.</p>
@@ -495,7 +506,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
   <div class="eyebrow">Atto I</div>
   <h1>Quando la risposta giusta non esiste</h1>
 
-  <div class="player big" id="p2"></div>
+  <div class="player" id="p2"></div>
   <p class="tiny">Sequenza da <i>Apollo 13</i> (1995): la soluzione del filtro dell'anidride carbonica.</p>
 
   <p class="lead">Aprile 1970. L'anidride carbonica sale nella cabina. I filtri buoni sono quadrati, gli alloggiamenti rotondi.</p>
@@ -509,7 +520,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 
     <div class="fact">
       <div class="fact-t">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
         <span>Il vincolo non spegne: accende</span>
       </div>
       <p class="small" style="margin-bottom:0">Una scatola vuota non produce idee. Una scatola con un calzino, del nastro e tre ore di ossigeno sì. È lo stesso motivo per cui un oggetto preciso — una graffetta, una forchetta — fa venire in mente più usi di una pagina bianca.</p>
@@ -538,7 +549,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 
     <div class="task">
       <div class="task-t">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg>
         <span>L'idea diventa azione</span>
       </div>
       <p class="small">Prendi una consegna che dai spesso. Aggiungi un vincolo che la renda <b>impossibile da svolgere come sempre</b>.</p>
@@ -557,7 +568,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
   <div class="eyebrow">Atto IV</div>
   <h1>Il conto che si azzera ogni sera</h1>
 
-  <div class="player big" id="p3"></div>
+  <div class="player" id="p3"></div>
   <p class="tiny">Quarantacinque secondi.</p>
 
   <div id="revealA4">
@@ -567,7 +578,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 
     <div class="fact">
       <div class="fact-t">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7v5.2l3.2 2"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.6"/><path d="M12 7v5.2l3.2 2"/></svg>
         <span>Una nota da usare in classe</span>
       </div>
       <p class="small" style="margin-bottom:0">Il video dice <b>84.600</b>. I secondi di un giorno sono <b>86.400</b> (24×60×60): cifre invertite. Farlo scoprire ai ragazzi, invece di correggerlo tu, è già mezza lezione di pensiero critico.</p>
@@ -575,7 +586,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 
     <div class="task">
       <div class="task-t">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
         <span>L'idea diventa azione</span>
       </div>
       <p class="small" style="margin-bottom:0">Ritaglia <b>novanta secondi</b> in una lezione della prossima settimana. Un oggetto, una domanda aperta, nessun voto.</p>
@@ -605,7 +616,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 
   <div class="task" style="margin-top:20px">
     <div class="task-t">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#123E90" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
       <span>Il patto: una cosa sola</span>
     </div>
     <p class="small">Non un piano: una cosa sola, con una classe e un giorno.</p>
@@ -623,9 +634,13 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
     <button class="btn ghost" id="again">Ricomincia con altri oggetti</button>
   </div>
 
-  <div class="card dark" style="margin-top:22px">
-    <p style="margin-bottom:10px">Il 98% dei cinque anni non torna. E va bene così: con quello tornerebbe anche la graffetta che va sulla Luna.</p>
-    <p style="margin:0">Ma il 2% non è una condanna: è la misura di quanto poco lo alleniamo. Bastano cinque oggetti per riaccorgersene. In classe funziona uguale — cambia solo chi tiene aperta la porta.</p>
+  <div class="card dark loop-card" style="margin-top:22px">
+    <div class="loop-close">
+      <svg class="loop-ring" viewBox="0 0 48 48" aria-hidden="true"><path d="M32 8.4A18 18 0 1 0 39 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></svg>
+      <span style="color:#fff">L'anello resta aperto</span>
+    </div>
+    <p style="margin-bottom:10px">Non ti diamo la risposta: non è in questa app. La domanda resta appesa lì — <b style="color:#fff">chi decide quante risposte valgono?</b></p>
+    <p class="muted" style="margin:0">Da oggi, in classe, un po' di più lo decidi sapendolo. È il primo nodo del filo: lo riprenderemo. Ci rivediamo al prossimo.</p>
   </div>
 
   <div class="seedline" id="seedline2"></div>
@@ -1269,7 +1284,9 @@ $('again').addEventListener('click',function(){
 });
 
 /* ================= avvio ================= */
-if(!S.ordine||S.ordine.length!==OGGETTI.length) S=freshState(S.seed);
+/* se lo stato salvato ha oggetti non piu' esistenti (vecchia lista), rigenera:
+   altrimenti oggettoById restituisce null e la bottega mostra solo l'oggetto comune */
+if(!S.ordine||S.ordine.length!==OGGETTI.length||!S.ordine.every(function(id){return oggettoById(id);})) S=freshState(S.seed);
 var BOT_INTRO_HTML=$('botIntro').innerHTML;
 buildSteps();
 $('seedline').textContent='partita '+S.seed;
