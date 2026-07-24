@@ -10,7 +10,7 @@
 <meta name="description" content="Allenamento al pensiero divergente per i docenti. Sfondo integratore 2026/2027." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Lora:ital@0;1&display=swap" rel="stylesheet" />
 
 <style>
 /* ============================================================
@@ -33,6 +33,7 @@
   --shadow2:0 10px 30px rgba(188,0,17,.16);
   --head:'Lexend',sans-serif;
   --body:'Atkinson Hyperlegible',Helvetica,Arial,sans-serif;
+  --lora:'Lora',Georgia,serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
   --maxw:520px;
 }
@@ -112,6 +113,12 @@ h3{font-size:18.5px;margin-bottom:8px}
 .card.dark h2,.card.dark h3{color:#fff}
 .card.dark .muted{color:rgba(255,255,255,.74)}
 .card.flat{box-shadow:none;background:var(--warm);border-color:var(--brd)}
+/* video verticale dentro la modale: piu' contenuto, non a tutta altezza */
+.modal-vid.player.vert{height:min(52vh,420px);margin:14px auto 4px}
+/* citazione di chiusura: serif umanistico, tono caldo, filo rosso a sinistra */
+.quote{margin:26px 0 6px;padding:4px 0 4px 18px;border-left:3px solid var(--blu)}
+.quote p{font-family:var(--lora);font-style:italic;font-size:21px;line-height:1.42;color:var(--text);margin:0 0 8px}
+.quote cite{font-family:var(--head);font-style:normal;font-size:13.5px;font-weight:600;color:var(--muted);letter-spacing:.2px}
 /* l'anello aperto: segno visivo del filo che resta sospeso fino a giugno */
 .loop-card{position:relative;padding-top:18px}
 .loop-ring{width:38px;height:38px;display:block;margin:0 0 12px;opacity:.95}
@@ -630,7 +637,12 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
     <label class="fld"><span class="lab">Farò questo</span><textarea id="pAzione" placeholder="Un oggetto, una domanda aperta, nessun voto…"></textarea></label>
   </div>
 
-  <div class="card dark loop-card" style="margin-top:22px">
+  <blockquote class="quote">
+    <p>La mente che si apre a una nuova idea non torna mai alla dimensione precedente.</p>
+    <cite>Oliver Wendell Holmes Sr.</cite>
+  </blockquote>
+
+  <div class="card dark loop-card" style="margin-top:18px">
     <div class="loop-close">
       <svg class="loop-ring" viewBox="0 0 48 48" aria-hidden="true"><path d="M32 8.4A18 18 0 1 0 39 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></svg>
       <span style="color:#fff">L'anello resta aperto</span>
@@ -671,6 +683,19 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
     <h3>In collegio</h3>
     <p class="small">Tutti ricevono <b>gli stessi cinque oggetti nello stesso ordine</b> — si comincia dalla graffetta, l'oggetto del test di Land e Jarman — così i risultati sono confrontabili e la discussione ha senso.</p>
 
+    <hr class="hr" />
+    <h3>L'effetto Zeigarnik — e come usarlo in classe</h3>
+    <p class="small">Questa app usa una tecnica narrativa precisa, e vale la pena conoscerla perché funziona anche con gli studenti. Bluma <b>Zeigarnik</b> notò che i camerieri ricordavano benissimo gli ordini <i>non ancora serviti</i>, e li dimenticavano appena portati al tavolo. La mente tiene "accesi" i compiti <b>incompiuti</b>: una domanda in sospeso crea una piccola tensione che chiede di essere sciolta — e finché non lo è, l'attenzione resta agganciata.</p>
+    <p class="small">In classe si traduce in quattro mosse concrete:</p>
+    <p class="small" style="margin-bottom:6px"><b>1.</b> Apri la lezione con un interrogativo e <b>non chiuderlo subito</b>.</p>
+    <p class="small" style="margin-bottom:6px"><b>2.</b> Interrompi un attimo <b>prima</b> della soluzione: l'incompiuto resta in testa fino alla volta dopo.</p>
+    <p class="small" style="margin-bottom:6px"><b>3.</b> Lascia un <b>"continua la prossima volta"</b> tra una lezione e l'altra.</p>
+    <p class="small"><b>4.</b> Non consegnare la risposta pronta: è la tensione che fa lavorare la mente.</p>
+    <p class="small">È il rovescio esatto del pensiero convergente: dare subito <i>la</i> risposta chiude il cerchio e spegne l'attenzione; tenerlo aperto — come l'anello <b>«chi decide quante risposte valgono?»</b> che hai lasciato in sospeso — la alimenta. L'hai appena vissuto: sei arrivato in fondo perché il filo era aperto.</p>
+    <div class="player vert modal-vid" id="pZeig"></div>
+    <p class="tiny" style="text-align:center;margin-top:8px">Un breve video sull'effetto Zeigarnik.</p>
+
+    <hr class="hr" />
     <h3>Dati</h3>
     <p class="small">Le idee scritte vengono raccolte <b>in forma anonima</b> su un foglio di calcolo della scuola, per poterle restituire al collegio. Non vengono chiesti né inviati nome, classe o materia: l'unico identificativo è un codice casuale generato dal telefono, che serve solo a tenere insieme le risposte della stessa sessione.</p>
     <p class="small" style="margin-bottom:18px">Il resto (le tue note, il patto finale) resta sul dispositivo.</p>
@@ -920,10 +945,17 @@ $('btnNext').addEventListener('click',function(){
 $('btnBack').addEventListener('click',function(){ if(S.scr>0) show(S.scr-1); });
 
 /* ================= modale e lightbox ================= */
+/* il video Zeigarnik si monta alla prima apertura (in una modale display:none
+   l'iframe nascerebbe con dimensione 0) e si mette in pausa alla chiusura */
+var zeigMounted=false;
+function openModal(id){
+  $(id).classList.add('on');
+  if(id==='mMeta'&&!zeigMounted){ zeigMounted=true; mkYT($('pZeig'),'PJRQMnZH5KY',{}); }
+}
 document.addEventListener('click',function(e){
-  var o=e.target.closest('[data-modal]'); if(o){$(o.dataset.modal).classList.add('on');return;}
-  var c=e.target.closest('[data-close]'); if(c){$(c.dataset.close).classList.remove('on');return;}
-  var m=e.target.closest('.modal'); if(m&&e.target===m){m.classList.remove('on');}
+  var o=e.target.closest('[data-modal]'); if(o){openModal(o.dataset.modal);return;}
+  var c=e.target.closest('[data-close]'); if(c){$(c.dataset.close).classList.remove('on');pauseAll();return;}
+  var m=e.target.closest('.modal'); if(m&&e.target===m){m.classList.remove('on');pauseAll();}
 });
 
 /* ---- player YouTube senza distrattori ----------------------------------------
