@@ -116,9 +116,17 @@ h3{font-size:18.5px;margin-bottom:8px}
 /* video verticale nella pagina cornice: piu' contenuto, non a tutta altezza */
 .modal-vid.player.vert{height:min(52vh,420px);margin:14px auto 4px}
 /* pagina "cornice metodologica": mentre e' aperta la topnav sparisce */
-body.meta-on .topnav{display:none}
+body.page-on .topnav{display:none}
 .meta-back{width:auto;padding:9px 16px 9px 12px;margin:2px 0 14px}
 .lead-red{color:var(--blu);font-size:13px;letter-spacing:.6px;text-transform:uppercase}
+/* muro delle idee: leggibilita' prima di tutto — testo orizzontale, movimento lento */
+.muro-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:6px 2px 8px}
+.muro-obj{font-family:var(--head);font-size:20px;font-weight:600;color:var(--text)}
+.muro-count{font-family:var(--head);font-size:13.5px;color:var(--muted);white-space:nowrap}
+.sky{position:relative;height:56vh;min-height:340px;overflow:hidden;border:1px solid var(--brd);border-radius:16px;background:linear-gradient(180deg,var(--card),var(--warm))}
+.star{position:absolute;left:0;top:0;max-width:80%;padding:9px 13px;border-radius:14px;background:var(--card);border:1px solid var(--brd2);box-shadow:var(--shadow);font-size:15px;line-height:1.32;color:var(--text);will-change:transform}
+.star.mine{background:var(--blu);border-color:var(--blu);color:#fff;font-weight:600}
+.sky-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:26px;color:var(--muted);font-size:15px;line-height:1.5}
 /* citazione di chiusura: serif umanistico, tono caldo, filo rosso a sinistra */
 .quote{margin:26px 0 6px;padding:4px 0 4px 18px;border-left:3px solid var(--blu)}
 .quote p{font-family:var(--lora);font-style:italic;font-size:21px;line-height:1.42;color:var(--text);margin:0 0 8px}
@@ -634,6 +642,13 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
     <cite>Oliver Wendell Holmes Sr.</cite>
   </blockquote>
 
+  <div class="stack" style="margin-top:18px">
+    <button class="btn gold" data-goto="muro">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.4"/></svg>
+      Il muro delle idee del collegio
+    </button>
+  </div>
+
   <div class="card dark loop-card" style="margin-top:18px">
     <div class="loop-close">
       <svg class="loop-ring" viewBox="0 0 48 48" aria-hidden="true"><path d="M32 8.4A18 18 0 1 0 39 20" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></svg>
@@ -651,7 +666,7 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
 
 <!-- ============ PAGINA · LA CORNICE METODOLOGICA (fuori conteggio) ============ -->
 <section class="scr" data-i="meta" id="scrMeta">
-  <button class="btn ghost meta-back" data-back-meta>
+  <button class="btn ghost meta-back" data-back-page>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5L8 12l6.5 6.5"/></svg>
     <span>Torna</span>
   </button>
@@ -718,11 +733,38 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
   <p class="small">Il resto (le tue note, il patto finale) resta sul dispositivo.</p>
 
   <div class="stack" style="margin-top:18px">
-    <button class="btn gold" data-back-meta>
+    <button class="btn gold" data-back-page>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5L8 12l6.5 6.5"/></svg>
       Torna al percorso
     </button>
   </div>
+</section>
+
+<!-- ============ PAGINA · IL MURO DELLE IDEE (fuori conteggio) ============ -->
+<section class="scr" data-i="muro" id="scrMuro">
+  <button class="btn ghost meta-back" data-back-page>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5L8 12l6.5 6.5"/></svg>
+    <span>Torna</span>
+  </button>
+
+  <div class="eyebrow">Il collegio pensa</div>
+  <h1>Il muro delle idee</h1>
+  <p class="lead">Non una risposta: centinaia. Ogni idea che i colleghi hanno scritto sale qui, oggetto per oggetto.</p>
+
+  <div class="dots" id="muroSel"></div>
+  <div class="muro-head">
+    <span class="muro-obj" id="muroObjName">—</span>
+    <span class="muro-count" id="muroCount"></span>
+  </div>
+
+  <div class="sky" id="sky">
+    <div class="sky-empty" id="skyEmpty" style="display:none"></div>
+  </div>
+
+  <div class="center" style="margin-top:12px">
+    <button class="linkbtn" id="muroRefresh">Aggiorna</button>
+  </div>
+  <p class="tiny" style="text-align:center;margin-top:4px">Si aggiorna da solo ogni pochi secondi. Le idee sono anonime.</p>
 </section>
 
 </main>
@@ -972,28 +1014,220 @@ $('btnNext').addEventListener('click',function(){
 });
 $('btnBack').addEventListener('click',function(){ if(S.scr>0) show(S.scr-1); });
 
-/* ============= pagina "cornice metodologica" (fuori conteggio) =============
-   Non entra nella sequenza numerata: mostra la .scr data-i="meta", nasconde la
-   topnav e ricorda da dove sei venuto (S.scr). Il video si monta alla prima
-   apertura (in una .scr display:none l'iframe nascerebbe a dimensione 0). */
+/* ============= pagine fuori conteggio (cornice metodologica, muro idee) =======
+   Non entrano nella sequenza numerata: mostrano la .scr con quel data-i, nascondono
+   la topnav e ricordano da dove sei venuto (S.scr). Il video Zeigarnik si monta alla
+   prima apertura (in una .scr display:none l'iframe nascerebbe a dimensione 0). */
 var zeigMounted=false;
-function showMeta(){
+function showPage(id){
   pauseAll();
-  document.body.classList.add('meta-on');
+  document.body.classList.add('page-on');
   var secs=document.querySelectorAll('.scr'),k;
-  for(k=0;k<secs.length;k++) secs[k].classList.toggle('on',secs[k].dataset.i==='meta');
-  if(!zeigMounted){ zeigMounted=true; mkYT($('pZeig'),'PJRQMnZH5KY',{}); }
+  for(k=0;k<secs.length;k++) secs[k].classList.toggle('on',secs[k].dataset.i===id);
+  if(id==='meta'&&!zeigMounted){ zeigMounted=true; mkYT($('pZeig'),'PJRQMnZH5KY',{}); }
+  if(id==='muro') startMuro();
   window.scrollTo(0,0);
 }
-function backFromMeta(){
+function backFromPage(){
   pauseAll();
-  document.body.classList.remove('meta-on');
+  stopMuro();
+  document.body.classList.remove('page-on');
   show(S.scr);           /* torna alla schermata da cui si e' aperta */
 }
 document.addEventListener('click',function(e){
-  if(e.target.closest('[data-goto="meta"]')){ showMeta(); return; }
-  if(e.target.closest('[data-back-meta]')){ backFromMeta(); return; }
+  var g=e.target.closest('[data-goto]'); if(g&&g.dataset.goto){ showPage(g.dataset.goto); return; }
+  if(e.target.closest('[data-back-page]')){ backFromPage(); return; }
 });
+
+/* ================= IL MURO DELLE IDEE =================
+   Le idee del collegio (lette dal foglio via JSONP) salgono lentamente in un
+   "cielo", raggruppate per oggetto. Leggibilita' prima di tutto: testo orizzontale,
+   poche etichette per volta, movimento lento. La tua compare subito, evidenziata. */
+var NOME2ID={}; OGGETTI.forEach(function(o){NOME2ID[o.nome]=o.id;});
+var muro={obj:null,data:{},sids:{},mine:{},stars:[],queue:[],qi:0,raf:0,poll:0,active:false,last:0,seq:0};
+
+function jsonp(url,cb){
+  var name='__jm'+(++muro.seq),done=false,sc=document.createElement('script');
+  function fin(v){ if(done)return; done=true; try{delete window[name];}catch(e){window[name]=undefined;} if(sc.parentNode)sc.parentNode.removeChild(sc); cb(v); }
+  window[name]=function(v){ fin(v); };
+  sc.onerror=function(){ fin(null); };
+  sc.src=url+(url.indexOf('?')<0?'?':'&')+'read=1&callback='+name+'&t='+Date.now();
+  document.head.appendChild(sc);
+  setTimeout(function(){ fin(null); },6500);   /* nessuna risposta valida: si tengono solo le mie */
+}
+
+function muroMineFromLocal(){
+  muro.mine={};
+  var k,righe,i,t;
+  for(k in S.testi){ if(!S.testi.hasOwnProperty(k))continue;
+    righe=(S.testi[k]||'').split(/\r?\n/);
+    for(i=0;i<righe.length;i++){ t=righe[i].replace(/^\s*[-\u2013\u2014\u2022]\s*/,'').trim(); if(t)(muro.mine[k]=muro.mine[k]||[]).push(t.slice(0,90)); }
+  }
+}
+
+function muroIdee(id){
+  var mine=(muro.mine[id]||[]).map(function(t){return {t:t,mine:true};});
+  var altri=(muro.data[id]||[]),seen={},out=mine.slice(),i;
+  mine.forEach(function(x){seen[x.t.toLowerCase()]=1;});
+  for(i=0;i<altri.length;i++){ if(!seen[altri[i].toLowerCase()]){ seen[altri[i].toLowerCase()]=1; out.push({t:altri[i],mine:false}); } }
+  return out;
+}
+
+function muroSetData(arr){
+  var by={},sids={},i,id;
+  for(i=0;i<arr.length;i++){ id=NOME2ID[arr[i].o]; if(!id)continue;
+    (by[id]=by[id]||[]).push(arr[i].t);
+    (sids[id]=sids[id]||{})[arr[i].s]=1;
+  }
+  muro.data=by; muro.sids=sids;
+  paintMuroSel(); renderCount();
+  if(!muro.active) return;
+  if(!muro.populated){ muro.populated=true; buildStars(); }  /* primo carico: distribuisci nel cielo */
+  else ensureStars();                                        /* refresh: aggiungi senza far saltare */
+}
+
+function paintMuroSel(){
+  var h='',i,id,n;
+  for(i=0;i<OGGETTI.length;i++){ id=OGGETTI[i].id; n=muroIdee(id).length;
+    h+='<button class="dot'+(n?' filled':'')+(id===muro.obj?' now':'')+'" data-mo="'+id+'" aria-label="'+esc(OGGETTI[i].nome)+'">'+(i+1)+'</button>';
+  }
+  $('muroSel').innerHTML=h;
+}
+
+function renderCount(){
+  var id=muro.obj; if(!id)return;
+  var o=oggettoById(id), n=muroIdee(id).length;
+  var col=muro.sids[id]?Object.keys(muro.sids[id]).length:0;
+  if((muro.mine[id]||[]).length) col+=1;
+  $('muroObjName').textContent=o?o.nome:'';
+  $('muroCount').textContent = n ? (n+' '+(n===1?'idea':'idee')+(col?' \u00b7 '+col+' '+(col===1?'collega':'colleghi'):'')) : 'ancora nessuna';
+}
+
+/* Processione ordinata: TUTTE le etichette salgono alla stessa velocita' e a
+   spaziatura verticale fissa. Cosi' non si raggiungono mai e non si accavallano —
+   la leggibilita' viene prima dell'effetto "nuvola". */
+function nuovaX(st){
+  var W=$('sky').clientWidth;
+  st.w=st.el.offsetWidth;
+  st.x=Math.round(Math.random()*Math.max(6,W-st.w-6));   /* x fissa finche' non ricicla */
+}
+
+var MURO_MAX=6;
+function nuovaStar(idea){
+  var el=document.createElement('div');
+  el.className='star'+(idea.mine?' mine':''); el.textContent=idea.t;
+  $('sky').appendChild(el);
+  var st={el:el,h:el.offsetHeight}; nuovaX(st);
+  return st;
+}
+/* buildStars: ricostruisce da zero (avvio, cambio oggetto) con le star scaglionate */
+function buildStars(){
+  var sky=$('sky');
+  [].slice.call(sky.querySelectorAll('.star')).forEach(function(el){el.parentNode.removeChild(el);});
+  muro.stars=[]; muro.qi=0;
+  var H=sky.clientHeight;
+  muro.spacing=Math.max(104,(H+150)/5);   /* distanza verticale garantita: niente overlap */
+  muro.vy=(H+160)/17000;                   /* px/ms: ~17s dal basso alla cima, leggibile */
+  var lista=muroIdee(muro.obj);
+  if(!lista.length){
+    $('skyEmpty').style.display='flex';
+    $('skyEmpty').textContent='Ancora nessuna idea per questo oggetto. Scrivine una nella bottega: sarai tra i primi a comparire qui.';
+    return;
+  }
+  $('skyEmpty').style.display='none';
+  muro.queue=lista;
+  var N=Math.min(lista.length,MURO_MAX),i,st;
+  for(i=0;i<N;i++){
+    st=nuovaStar(muro.queue[muro.qi++ % muro.queue.length]);
+    st.y=H - i*muro.spacing;               /* scaglionate, equidistanti */
+    st.el.style.transform='translate('+st.x+'px,'+st.y.toFixed(1)+'px)';
+    muro.stars.push(st);
+  }
+}
+/* ensureStars: al refresh porta il numero di star al target aggiungendone dal basso
+   (o togliendo l'eccesso) SENZA toccare quelle gia' in volo — niente salti */
+function ensureStars(){
+  var sky=$('sky'),H=sky.clientHeight;
+  var lista=muroIdee(muro.obj); muro.queue=lista;
+  if(!muro.spacing){ muro.spacing=Math.max(104,(H+150)/5); muro.vy=(H+160)/17000; }
+  if(!lista.length){
+    muro.stars.forEach(function(s){s.el.parentNode&&s.el.parentNode.removeChild(s.el);});
+    muro.stars=[]; $('skyEmpty').style.display='flex'; return;
+  }
+  $('skyEmpty').style.display='none';
+  var target=Math.min(lista.length,MURO_MAX),st,maxY,j;
+  while(muro.stars.length>target){ st=muro.stars.pop(); st.el.parentNode&&st.el.parentNode.removeChild(st.el); }
+  while(muro.stars.length<target){
+    st=nuovaStar(muro.queue[muro.qi++ % muro.queue.length]);
+    maxY=H; for(j=0;j<muro.stars.length;j++){ if(muro.stars[j].y>maxY) maxY=muro.stars[j].y; }
+    st.y=muro.stars.length ? maxY+muro.spacing : H;     /* entra dal basso */
+    st.el.style.transform='translate('+st.x+'px,'+st.y.toFixed(1)+'px)';
+    muro.stars.push(st);
+  }
+}
+
+function muroLoop(ts){
+  if(!muro.active)return;
+  if(!muro.last)muro.last=ts;
+  var dt=Math.min(50,ts-muro.last); muro.last=ts;
+  var i,st,maxY;
+  for(i=0;i<muro.stars.length;i++){ muro.stars[i].y -= muro.vy*dt; }
+  for(i=0;i<muro.stars.length;i++){ st=muro.stars[i];
+    if(st.y < -st.h-6){
+      maxY=-1e9; for(var j=0;j<muro.stars.length;j++){ if(muro.stars[j].y>maxY) maxY=muro.stars[j].y; }
+      var idea=muro.queue[muro.qi++ % muro.queue.length];
+      st.el.textContent=idea.t; st.el.className='star'+(idea.mine?' mine':'');
+      st.h=st.el.offsetHeight; nuovaX(st);
+      st.y=maxY+muro.spacing;                            /* rientra sotto l'ultima, stesso passo */
+    }
+    st.el.style.transform='translate('+st.x+'px,'+st.y.toFixed(1)+'px)';
+  }
+  muro.raf=requestAnimationFrame(muroLoop);
+}
+
+function loadMuro(){
+  if(params.get('mock')){ muroSetData(MOCK_MURO()); return; }
+  if(!SHEET_URL)return;
+  jsonp(SHEET_URL,function(arr){ if(muro.active&&arr&&arr.length) muroSetData(arr); });
+}
+
+function startMuro(){
+  muro.active=true; muro.last=0; muro.populated=false;
+  muroMineFromLocal();
+  if(!muro.obj) muro.obj=OGGETTI[0].id;
+  paintMuroSel(); renderCount(); buildStars();
+  cancelAnimationFrame(muro.raf); muro.raf=requestAnimationFrame(muroLoop);
+  loadMuro();
+  clearInterval(muro.poll); muro.poll=setInterval(loadMuro,25000);
+}
+function stopMuro(){
+  muro.active=false;
+  cancelAnimationFrame(muro.raf); muro.raf=0;
+  clearInterval(muro.poll); muro.poll=0;
+}
+
+$('muroSel').addEventListener('click',function(e){
+  var b=e.target.closest('[data-mo]'); if(!b)return;
+  muro.obj=b.dataset.mo; paintMuroSel(); renderCount(); buildStars();
+});
+$('muroRefresh').addEventListener('click',loadMuro);
+
+/* idee finte per provare il cielo senza il foglio (aggiungi ?mock=1) */
+function MOCK_MURO(){
+  var frasi={
+    graffetta:['fermaporta per l\'aula','gancio per i cartelloni','segnaposto nel libro','apri-SIM di emergenza','piccola scultura di gruppo','gioiello per un travestimento','stuzzicadenti per la creta','fermaglio per i disegni'],
+    forchetta:['pettine per la lana','riga per quattro linee parallele','mescolare le tempere','strumento a percussione','misurare a punte','sostegno per una piantina'],
+    bottiglia:['annaffiatoio','strumento a fiato','fermacarte','mostrare le frazioni con l\'acqua','clessidra ad acqua','porta-matite'],
+    elastico:['tenere le schede','far vedere le forze','strumento a corda','mirino per il bersaglio','confine sul banco'],
+    corda:['linea del tempo in aula','campo da gioco','misurare il cortile','nodi per ricordare','collegare due idee alla lavagna']
+  };
+  var out=[],id,i,s;
+  for(id in frasi){ if(!frasi.hasOwnProperty(id))continue;
+    var nome=(oggettoById(id)||{}).nome||id;
+    for(i=0;i<frasi[id].length;i++){ s='m'+((i%4)+1); out.push({o:nome,t:frasi[id][i],s:s}); }
+  }
+  return out;
+}
 
 /* ---- player YouTube senza distrattori ----------------------------------------
    L'embed nudo lascerebbe titolo cliccabile, avatar del canale, "Guarda su YouTube",
