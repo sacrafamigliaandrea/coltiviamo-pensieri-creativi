@@ -258,10 +258,15 @@ input.vp-seek[type=range]::-moz-range-progress{height:4px;border-radius:3px;back
 .objnav .btn.ghost{flex:0 0 auto;padding-left:15px;padding-right:17px}
 .objnav .btn[disabled]{opacity:.3;pointer-events:none}
 
-.dots{display:flex;gap:8px;justify-content:center;margin:2px 0 14px}
-.dot{width:11px;height:11px;border-radius:50%;background:var(--warm);border:1px solid var(--brd2)}
-.dot.filled{background:var(--gold2);border-color:var(--gold2)}
-.dot.now{outline:2px solid var(--blu);outline-offset:2px}
+/* quadratini numerati, grandi e distanziati: target di tocco comodo (38px) */
+.dots{display:flex;gap:11px;justify-content:center;margin:4px 0 16px;flex-wrap:wrap}
+.dot{
+  width:38px;height:38px;border-radius:11px;background:var(--warm);border:1.5px solid var(--brd2);
+  font-family:var(--head);font-size:15px;font-weight:600;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;line-height:1
+}
+.dot.filled{background:var(--blu);border-color:var(--blu);color:#fff}
+.dot.now{outline:3px solid var(--blu);outline-offset:2px}
 
 /* ---------- campi di scrittura ---------- */
 textarea{
@@ -623,15 +628,6 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
     <label class="fld"><span class="lab">In classe</span><input type="text" id="pClasse" class="tin" placeholder="1ª B" autocomplete="off" /></label>
     <label class="fld"><span class="lab">Quando</span><input type="text" id="pQuando" class="tin" placeholder="martedì, prima ora" autocomplete="off" /></label>
     <label class="fld"><span class="lab">Farò questo</span><textarea id="pAzione" placeholder="Un oggetto, una domanda aperta, nessun voto…"></textarea></label>
-  </div>
-
-  <hr class="hr" />
-  <div class="stack">
-    <button class="btn gold" id="copyAll">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h10v11H9z"/><path d="M15 9V4H5v11h4"/></svg>
-      Copia il mio taccuino
-    </button>
-    <button class="btn ghost" id="again">Ricomincia con altri oggetti</button>
   </div>
 
   <div class="card dark loop-card" style="margin-top:22px">
@@ -1101,7 +1097,7 @@ function paintDots(){
   var h='',i;
   for(i=0;i<S.ordine.length;i++){
     var pieno=(S.testi[S.ordine[i]]||'').trim().length>0;
-    h+='<button class="dot'+(pieno?' filled':'')+(i===S.round?' now':'')+'" data-d="'+i+'" aria-label="Oggetto '+(i+1)+'"></button>';
+    h+='<button class="dot'+(pieno?' filled':'')+(i===S.round?' now':'')+'" data-d="'+i+'" aria-label="Oggetto '+(i+1)+'">'+(i+1)+'</button>';
   }
   $('botDots').innerHTML=h;
 }
@@ -1230,58 +1226,10 @@ function paintFinale(){
   $('seedline2').textContent='partita '+S.seed;
 }
 
-function taccuino(){
-  var L=[],i,id,o,txt;
-  L.push('COLTIVIAMO PENSIERI CREATIVI — il mio taccuino');
-  L.push('Scuola Sacra Famiglia · Martinengo e Orzinuovi — sfondo integratore 2026/2027');
-  L.push('partita: '+S.seed);
-  L.push('');
-  L.push('I MIEI CINQUE OGGETTI');
-  for(i=0;i<S.ordine.length;i++){
-    id=S.ordine[i];o=oggettoById(id);txt=(S.testi[id]||'').trim();
-    L.push('');
-    L.push((i+1)+'. '+o.nome.toUpperCase()+'  ('+o.area+')');
-    L.push(txt?txt:'   (non compilato)');
-  }
-  L.push('');
-  L.push('LA CONSEGNA CON IL VINCOLO DENTRO (Atto III)');
-  L.push(S.fVincolo||'(da scrivere)');
-  L.push('');
-  L.push('CHE COSA MI PORTO VIA');
-  L.push('Oggetto più difficile: '+(S.m1||'(da scrivere)'));
-  L.push('Che cosa ha sbloccato le idee: '+(S.m2||'(da scrivere)'));
-  L.push('Quante risposte accetto di solito: '+(S.m3||'(da scrivere)'));
-  L.push('');
-  L.push('IL PATTO');
-  L.push('Classe: '+(S.pClasse||'—')+' · Quando: '+(S.pQuando||'—'));
-  L.push('Farò: '+(S.pAzione||'(da scrivere)'));
-  return L.join('\n');
-}
 
-$('copyAll').addEventListener('click',function(){
-  var t=taccuino();
-  function fallback(){
-    var ta=document.createElement('textarea');
-    ta.value=t;ta.style.position='fixed';ta.style.opacity='0';
-    document.body.appendChild(ta);ta.select();
-    try{document.execCommand('copy');toast('Taccuino copiato.');}catch(e){toast('Copia non riuscita.');}
-    document.body.removeChild(ta);
-  }
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(t).then(function(){toast('Taccuino copiato.');},fallback);
-  }else fallback();
-});
 
-$('again').addEventListener('click',function(){
-  var forced=params.get('seed');
-  S=freshState(forced?forced+'-b'+Date.now().toString(36):(sid()+'-'+nextRun()));
-  inviatoFine=false;
-  save();
-  ['fVincolo','m1','m2','m3','pClasse','pQuando','pAzione'].forEach(function(k){var el=$(k);if(el)el.value='';});
-  $('botIntro').innerHTML=BOT_INTRO_HTML;
-  show(3);                                     /* la bottega e' l'Atto III */
-  toast('Bottega di nuovo aperta.');
-});
+
+
 
 /* ================= avvio ================= */
 /* se lo stato salvato ha oggetti non piu' esistenti (vecchia lista), rigenera:
