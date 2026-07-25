@@ -123,6 +123,46 @@ h3{font-size:18.5px;margin-bottom:8px}
 body.page-on .topnav{display:none}
 .meta-back{width:auto;padding:9px 16px 9px 12px;margin:2px 0 14px}
 .lead-red{color:var(--blu);font-size:13px;letter-spacing:.6px;text-transform:uppercase}
+/* ---------- giochi a piu' soluzioni ---------- */
+/* "Fai 100": cifre fisse, tra loro slot che ciclano niente / + / - . Solo tocco. */
+.cento{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px;margin:14px 0 12px}
+.cento .cif{
+  font-family:var(--head);font-size:23px;font-weight:700;color:var(--text);
+  width:26px;height:44px;display:flex;align-items:center;justify-content:center
+}
+.cento .op{
+  width:40px;height:44px;border-radius:11px;border:1.5px dashed var(--brd2);background:var(--card);
+  font-family:var(--head);font-size:21px;font-weight:700;color:var(--light);
+  display:flex;align-items:center;justify-content:center;line-height:1
+}
+.cento .op.set{border-style:solid;border-color:var(--blu);background:var(--bluL);color:var(--blu)}
+.cento-out{display:flex;align-items:baseline;justify-content:center;gap:9px;flex-wrap:wrap;margin-bottom:4px}
+.cento-expr{font-family:var(--mono);font-size:14px;color:var(--muted);word-break:break-all}
+.cento-eq{font-family:var(--head);font-size:17px;color:var(--light)}
+.cento-res{font-family:var(--head);font-size:27px;font-weight:700;color:var(--text);line-height:1}
+.cento-res.win{color:var(--blu)}
+.cento-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px}
+.cento-bar .btn{width:auto;padding:9px 16px;font-size:15px}
+.cento-score{font-family:var(--head);font-size:15px;color:var(--muted);white-space:nowrap}
+.cento-score b{font-size:19px;color:var(--blu)}
+.cento-list{list-style:none;padding:0;margin:12px 0 0;display:flex;flex-direction:column;gap:6px}
+.cento-list li{
+  font-family:var(--mono);font-size:14.5px;color:var(--text);background:var(--warm);
+  border:1px solid var(--brd);border-radius:10px;padding:8px 11px
+}
+.cento-list li.fresh{animation:fadeUp .3s ease}
+.gioco-fig{margin:12px 0}
+.gioco-fig svg{width:100%;height:auto;display:block}
+.numeri{display:flex;gap:9px;margin:12px 0;flex-wrap:wrap}
+.num{
+  flex:1 1 90px;background:var(--warm);border:1px solid var(--brd);border-radius:13px;
+  padding:11px 9px;text-align:center
+}
+.num b{display:block;font-family:var(--head);font-size:22px;font-weight:700;color:var(--text);line-height:1.1}
+.num span{display:block;font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.3}
+.num.gold{background:var(--bluL);border-color:var(--blu)}
+.num.gold b{color:var(--blu)}
+
 /* muro delle idee: leggibilita' prima di tutto — testo orizzontale, movimento lento */
 .muro-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:6px 2px 8px}
 .muro-obj{font-family:var(--head);font-size:20px;font-weight:600;color:var(--text)}
@@ -652,6 +692,10 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.4"/></svg>
       Il muro delle idee del collegio
     </button>
+    <button class="btn ghost" data-goto="giochi">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><path d="M15 17h4M17 15v4"/></svg>
+      Giochi a più soluzioni
+    </button>
   </div>
 
   <div class="card dark loop-card" style="margin-top:18px">
@@ -771,6 +815,92 @@ footer p{font-size:12.5px;color:var(--light);line-height:1.5;margin:0}
     <button class="linkbtn" id="muroRefresh">Aggiorna</button>
   </div>
   <p class="tiny" style="text-align:center;margin-top:4px">Si aggiorna da solo ogni pochi secondi. Le idee sono anonime.</p>
+</section>
+
+<!-- ============ PAGINA · GIOCHI A PIU' SOLUZIONI (fuori conteggio) ============ -->
+<section class="scr" data-i="giochi" id="scrGiochi">
+  <button class="btn ghost meta-back" data-back-page>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5L8 12l6.5 6.5"/></svg>
+    <span>Torna</span>
+  </button>
+
+  <div class="eyebrow">Da provare, poi da portare in classe</div>
+  <h1>Giochi a più soluzioni</h1>
+  <p class="lead">Quasi tutti i giochi di logica hanno una risposta sola. Questi no: qui il numero di soluzioni <i>è</i> la lezione. Provali tu, poi portali ai ragazzi.</p>
+
+  <!-- ---------- GIOCO INTERATTIVO: FAI 100 ---------- -->
+  <div class="card">
+    <h3>Fai 100</h3>
+    <p class="small">Le cifre <b>da 1 a 9, in quest'ordine</b>. Tocca gli spazi tra una cifra e l'altra per mettere <b>+</b>, <b>&minus;</b> oppure niente (le cifre si uniscono: 1 2 diventa 12). Obiettivo: <b>100</b>.</p>
+
+    <div class="cento" id="centoRow"></div>
+
+    <div class="cento-out">
+      <div class="cento-expr" id="centoExpr">1 2 3 4 5 6 7 8 9</div>
+      <div class="cento-eq">=</div>
+      <div class="cento-res" id="centoRes">123456789</div>
+    </div>
+
+    <div class="cento-bar">
+      <button class="btn ghost cento-reset" id="centoReset">Azzera</button>
+      <div class="cento-score"><b id="centoFound">0</b> di <span id="centoTot">–</span> trovate</div>
+    </div>
+
+    <ul class="cento-list" id="centoList"></ul>
+
+    <div class="task" style="margin-top:14px">
+      <div class="task-t">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg>
+        <span>In classe</span>
+      </div>
+      <p class="small" style="margin-bottom:0">Alla lavagna, senza dispositivi. Chi trova una soluzione ha finito? No: <b>ne restano altre dieci</b>. La classe smette di cercare "la" risposta e comincia a cercarne un'altra — è lì che cambia tutto.</p>
+    </div>
+  </div>
+
+  <!-- ---------- SCHEDA: PENTOMINI ---------- -->
+  <div class="card">
+    <h3>I pentomini</h3>
+    <p class="small">Dodici pezzi, ognuno fatto di cinque quadretti: sono tutte le forme possibili. Si ritagliano su carta quadrettata in cinque minuti.</p>
+    <div class="gioco-fig" id="figPento"></div>
+    <p class="small">La consegna è sempre la stessa — <i>riempi il rettangolo</i> — ma il numero di soluzioni cambia in modo clamoroso:</p>
+    <div class="numeri">
+      <div class="num"><b>2.339</b><span>rettangolo 6&times;10</span></div>
+      <div class="num"><b>1.010</b><span>rettangolo 5&times;12</span></div>
+      <div class="num gold"><b>2</b><span>rettangolo 3&times;20</span></div>
+    </div>
+    <p class="small" style="margin-bottom:0">Stessi pezzi, stessa regola. Cambia la <b>cornice</b>, e le risposte passano da migliaia a due: quanto spazio lascia una consegna dipende da come è formulata.</p>
+
+    <div class="task" style="margin-top:14px">
+      <div class="task-t">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg>
+        <span>In classe</span>
+      </div>
+      <p class="small" style="margin-bottom:0">A coppie, col 6&times;10: ogni coppia trova una soluzione <b>diversa</b> dalle altre. Si appendono al muro — la parete si riempie di risposte tutte corrette.</p>
+    </div>
+  </div>
+
+  <!-- ---------- SCHEDA: DIVIDI IL QUADRATO ---------- -->
+  <div class="card">
+    <h3>Dividi il quadrato in quattro parti uguali</h3>
+    <p class="small">La domanda sembra da prima elementare. Le soluzioni sono <b>infinite</b>: appena qualcuno esce dalle due ovvie, la classe si accorge che il gioco è un altro.</p>
+    <div class="gioco-fig" id="figQuad"></div>
+    <p class="small" style="margin-bottom:0">Le prime due arrivano subito. La terza fa alzare le sopracciglia. Dalla quarta in poi cominciano a inventarne di proprie — e nessuna è sbagliata.</p>
+
+    <div class="task" style="margin-top:14px">
+      <div class="task-t">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--blu)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></svg>
+        <span>In classe</span>
+      </div>
+      <p class="small" style="margin-bottom:0">Foglio quadrettato, cinque minuti: <i>"quante divisioni diverse riesci a trovare?"</i>. Poi si contano insieme. Funziona dalla prima primaria alla terza media.</p>
+    </div>
+  </div>
+
+  <div class="stack" style="margin-top:18px">
+    <button class="btn gold" data-back-page>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5L8 12l6.5 6.5"/></svg>
+      Torna al percorso
+    </button>
+  </div>
 </section>
 
 </main>
@@ -1032,6 +1162,7 @@ function showPage(id){
   for(k=0;k<secs.length;k++) secs[k].classList.toggle('on',secs[k].dataset.i===id);
   if(id==='meta'&&!zeigMounted){ zeigMounted=true; mkYT($('pZeig'),'PJRQMnZH5KY',{}); }
   if(id==='muro') startMuro();
+  if(id==='giochi') initGiochi();
   window.scrollTo(0,0);
 }
 function backFromPage(){
@@ -1044,6 +1175,157 @@ document.addEventListener('click',function(e){
   var g=e.target.closest('[data-goto]'); if(g&&g.dataset.goto){ showPage(g.dataset.goto); return; }
   if(e.target.closest('[data-back-page]')){ backFromPage(); return; }
 });
+
+/* ================= GIOCHI A PIU' SOLUZIONI =================
+   "Fai 100": le cifre 1..9 in ordine, tra loro un operatore che cicla
+   niente / + / - . Il totale delle soluzioni NON e' scritto a mano: si ricava
+   da una ricerca esaustiva sulle 3^8 = 6561 combinazioni (istantanea). */
+var CENTO_OPS=['','+','-'];
+var cento={ops:[0,0,0,0,0,0,0,0],tot:0,trovate:[],init:false};
+
+/* valuta una combinazione: concatena le cifre quando l'operatore e' vuoto */
+function centoCalc(ops){
+  var num=1,seg=[],i;
+  for(i=0;i<8;i++){
+    var cif=i+2;
+    if(CENTO_OPS[ops[i]]===''){ num=num*10+cif; }
+    else { seg.push(num); seg.push(CENTO_OPS[ops[i]]); num=cif; }
+  }
+  seg.push(num);
+  var tot=seg[0];
+  for(i=1;i<seg.length;i+=2){ tot += (seg[i]==='+'? seg[i+1] : -seg[i+1]); }
+  return tot;
+}
+function centoExprText(ops){
+  var out='1',i;
+  for(i=0;i<8;i++){ out += CENTO_OPS[ops[i]] + (i+2); }
+  return out;
+}
+/* ricerca esaustiva: da qui esce il "di quante" mostrato a schermo */
+function centoTotale(){
+  var n=0,c=[0,0,0,0,0,0,0,0],i,k;
+  for(k=0;k<6561;k++){
+    var v=k;
+    for(i=0;i<8;i++){ c[i]=v%3; v=(v-c[i])/3; }
+    if(centoCalc(c)===100) n++;
+  }
+  return n;
+}
+
+function centoPaint(){
+  var res=centoCalc(cento.ops), expr=centoExprText(cento.ops);
+  $('centoExpr').textContent=expr;
+  $('centoRes').textContent=res;
+  $('centoRes').classList.toggle('win',res===100);
+  var n=$('centoRow').children,i,k=0;
+  for(i=0;i<n.length;i++){
+    if(!n[i].classList.contains('op'))continue;
+    var o=CENTO_OPS[cento.ops[k]];
+    n[i].textContent = o==='' ? '·' : (o==='-'?'−':'+');
+    n[i].classList.toggle('set',o!=='');
+    k++;
+  }
+  if(res===100 && cento.trovate.indexOf(expr)<0){
+    cento.trovate.push(expr);
+    var li=document.createElement('li');
+    li.className='fresh'; li.textContent=expr+' = 100';
+    $('centoList').appendChild(li);
+    $('centoFound').textContent=String(cento.trovate.length);
+    try{ if(navigator.vibrate) navigator.vibrate(20); }catch(e){}
+    toast(cento.trovate.length<cento.tot ? 'Trovata! Ne restano '+(cento.tot-cento.trovate.length)+'.' : 'Le hai trovate tutte.');
+  }
+}
+
+function buildCento(){
+  var h='',i;
+  h+='<span class="cif">1</span>';
+  for(i=0;i<8;i++){
+    h+='<button class="op" data-op="'+i+'" aria-label="Operatore prima del '+(i+2)+'">·</button>';
+    h+='<span class="cif">'+(i+2)+'</span>';
+  }
+  $('centoRow').innerHTML=h;
+}
+
+function initGiochi(){
+  if(cento.init)return;
+  cento.init=true;
+  buildCento();
+  cento.tot=centoTotale();
+  $('centoTot').textContent=String(cento.tot);
+  centoPaint();
+  figuraPentomini();
+  figuraQuadrati();
+  $('centoRow').addEventListener('click',function(e){
+    var b=e.target.closest('[data-op]'); if(!b)return;
+    var i=+b.dataset.op;
+    cento.ops[i]=(cento.ops[i]+1)%3;
+    centoPaint();
+  });
+  $('centoReset').addEventListener('click',function(){
+    cento.ops=[0,0,0,0,0,0,0,0]; centoPaint();
+  });
+}
+
+/* i 12 pentomini, disegnati come griglie di quadretti */
+function figuraPentomini(){
+  var forme=[
+    {n:'F',c:[[1,0],[2,0],[0,1],[1,1],[1,2]]},
+    {n:'I',c:[[0,0],[0,1],[0,2],[0,3],[0,4]]},
+    {n:'L',c:[[0,0],[0,1],[0,2],[0,3],[1,3]]},
+    {n:'N',c:[[1,0],[1,1],[0,2],[1,2],[0,3]]},
+    {n:'P',c:[[0,0],[1,0],[0,1],[1,1],[0,2]]},
+    {n:'T',c:[[0,0],[1,0],[2,0],[1,1],[1,2]]},
+    {n:'U',c:[[0,0],[2,0],[0,1],[1,1],[2,1]]},
+    {n:'V',c:[[0,0],[0,1],[0,2],[1,2],[2,2]]},
+    {n:'W',c:[[0,0],[0,1],[1,1],[1,2],[2,2]]},
+    {n:'X',c:[[1,0],[0,1],[1,1],[2,1],[1,2]]},
+    {n:'Y',c:[[1,0],[0,1],[1,1],[1,2],[1,3]]},
+    {n:'Z',c:[[0,0],[1,0],[1,1],[1,2],[2,2]]}
+  ];
+  var U=9,GAP=10,COLS=6,cw=0,rows=[],i,j;
+  /* dispone in 2 righe da 6, misurando ogni forma */
+  var svg='',x=0,y=0,maxRow=0,W=0;
+  var pos=[];
+  for(i=0;i<forme.length;i++){
+    var w=0,hh=0;
+    forme[i].c.forEach(function(p){ if(p[0]+1>w)w=p[0]+1; if(p[1]+1>hh)hh=p[1]+1; });
+    forme[i].w=w; forme[i].h=hh;
+  }
+  for(i=0;i<forme.length;i++){
+    if(i%COLS===0 && i>0){ y+=maxRow*U+GAP+6; x=0; maxRow=0; }
+    pos.push({x:x,y:y});
+    x+=forme[i].w*U+GAP;
+    if(x>W)W=x;
+    if(forme[i].h>maxRow)maxRow=forme[i].h;
+  }
+  var H=y+maxRow*U+2;
+  for(i=0;i<forme.length;i++){
+    forme[i].c.forEach(function(p){
+      svg+='<rect x="'+(pos[i].x+p[0]*U)+'" y="'+(pos[i].y+p[1]*U)+'" width="'+U+'" height="'+U+'" rx="1.2" fill="var(--bluL)" stroke="var(--blu)" stroke-width="1.4"/>';
+    });
+  }
+  $('figPento').innerHTML='<svg viewBox="-2 -2 '+(W+2)+' '+(H+4)+'" role="img" aria-label="I dodici pentomini">'+svg+'</svg>';
+}
+
+/* quattro modi diversi di dividere lo stesso quadrato in 4 parti uguali */
+function figuraQuadrati(){
+  var S=64,G=12,n=4,W=n*S+(n-1)*G,svg='',i;
+  var linee=[
+    '<path d="M32 0V64M0 32H64"/>',                         /* a croce */
+    '<path d="M16 0V64M32 0V64M48 0V64"/>',                 /* a strisce */
+    '<path d="M0 0L64 64M64 0L0 64"/>',                     /* a diagonali */
+    /* girandola: 4 raggi dal centro a 90 gradi l'uno dall'altro, ma inclinati.
+       Per la simmetria rotazionale del quadrato le 4 parti restano congruenti. */
+    '<path d="M32 32L64 20.4M32 32L43.6 64M32 32L0 43.6M32 32L20.4 0"/>' 
+  ];
+  for(i=0;i<n;i++){
+    var x=i*(S+G);
+    svg+='<g transform="translate('+x+',0)">'
+      +'<rect x="0.8" y="0.8" width="'+(S-1.6)+'" height="'+(S-1.6)+'" rx="3" fill="var(--card)" stroke="var(--brd2)" stroke-width="1.6"/>'
+      +'<g fill="none" stroke="var(--blu)" stroke-width="2" stroke-linecap="round">'+linee[i]+'</g></g>';
+  }
+  $('figQuad').innerHTML='<svg viewBox="-2 -2 '+(W+4)+' '+(S+4)+'" role="img" aria-label="Quattro modi di dividere un quadrato in quattro parti uguali">'+svg+'</svg>';
+}
 
 /* ================= IL MURO DELLE IDEE =================
    Le idee del collegio (lette dal foglio via JSONP) salgono lentamente in un
